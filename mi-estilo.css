@@ -1,0 +1,25 @@
+ 
+.avatar {
+vertical-align:text-bottom;
+height: 180px;
+background: url("img/yo-small.png") no-repeat;
+}
+ 
+.idioma {
+margin-top: 5px;
+float: right;
+}
+
+.idioma a {border-bottom: 1px dotted #dddddd; color: #555555; text-decoration: none;}
+
+.journal {
+        color: #052965;
+}
+
+.titulo {
+    color: #085e80;
+}
+
+.principal a {border-bottom: 1px dotted #dddddd; color: #888888; text-decoration: none;}
+.principal a:visited {color: #062540;}
+.principal a:hover {color: #052965;}
