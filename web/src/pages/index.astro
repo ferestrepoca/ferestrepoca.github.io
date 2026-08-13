@@ -1,0 +1,116 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui, levelKey } from "../i18n/ui";
+import person from "../data/person.json";
+import meta from "../data/meta.json";
+import courses from "../data/courses.json";
+import projects from "../data/projects.json";
+
+const currentCourses = courses.filter((c) => c.current);
+const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
+---
+<Layout
+  title={`${person.name_display} — Inicio`}
+  titleEn={`${person.name_display} — Home`}
+  description="Sitio personal — Felipe Restrepo Calle"
+  descriptionEn="Personal website — Felipe Restrepo Calle"
+>
+  <section class="person">
+    <img
+      src={person.image_path}
+      alt={`${ui.es.photo_alt} ${person.name_display}`}
+      width="140"
+      height="140"
+    />
+    <div>
+      <h1>{person.name_display}</h1>
+      <p><Bilingual es={person.rank} en={person.rank_en} /></p>
+      <p class="muted">
+        <Bilingual es={person.department} en={person.department_en} /><br />
+        <Bilingual es={person.institution} en={person.institution_en} /><br />
+        {person.city}, <Bilingual es={person.country} en={person.country_en} /><br />
+        <Bilingual es={person.office} en={person.office_en} /><br />
+        {person.phone}<br />
+        {person.email}
+      </p>
+      {person.group_url && (
+        <p>
+          <Bilingual es={ui.es.group} en={ui.en.group} />:{" "}
+          <a href={person.group_url} target="_blank" rel="noopener">{person.group_name}</a>
+        </p>
+      )}
+      <p class="meta">
+        <Bilingual es={ui.es.areas} en={ui.en.areas} />:{" "}
+        <span data-lang="es">{(person.areas || []).join(" · ")}</span>
+        <span data-lang="en">{areasEn.join(" · ")}</span>
+      </p>
+      <ul class="chips">
+        {person.profiles.slice(0, 6).map((p) => (
+          <li>
+            <a href={p.url} target="_blank" rel="noopener">
+              <Bilingual es={p.label} en={p.label_en || p.label} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <h2>
+    <span data-lang="es">{ui.es.current_courses}</span>
+    <span data-lang="en">{ui.en.current_courses}</span>
+  </h2>
+  <ul class="card-list">
+    {currentCourses.map((c) => {
+      const lk = levelKey(c.level);
+      return (
+        <li>
+          <strong>{c.title}</strong>
+          <div class="meta">
+            {c.term}
+            {lk ? (
+              <>
+                {" · "}
+                <Bilingual es={ui.es[lk]} en={ui.en[lk]} />
+              </>
+            ) : c.level ? (
+              <> · {c.level}</>
+            ) : null}
+          </div>
+          {c.url && (
+            <a href={c.url} target="_blank" rel="noopener">
+              <Bilingual es={ui.es.course_site} en={ui.en.course_site} />
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+
+  <h2>
+    <span data-lang="es">{ui.es.featured_projects}</span>
+    <span data-lang="en">{ui.en.featured_projects}</span>
+  </h2>
+  <ul class="card-list">
+    {projects.slice(0, 4).map((p) => (
+      <li>
+        <strong><Bilingual es={p.title_short} en={p.title_short_en} /></strong>
+        <p class="muted"><Bilingual es={p.summary} en={p.summary_en} /></p>
+      </li>
+    ))}
+  </ul>
+
+  <p class="meta">
+    <span data-lang="es">
+      {ui.es.meta_exported} {meta.exported_at}: {meta.counts.publications} {ui.es.meta_pubs} ·{" "}
+      {meta.counts.theses} {ui.es.meta_theses} · {meta.counts.students} {ui.es.meta_students} ·{" "}
+      {meta.counts.courses} {ui.es.meta_courses}
+    </span>
+    <span data-lang="en">
+      {ui.en.meta_exported} {meta.exported_at}: {meta.counts.publications} {ui.en.meta_pubs} ·{" "}
+      {meta.counts.theses} {ui.en.meta_theses} · {meta.counts.students} {ui.en.meta_students} ·{" "}
+      {meta.counts.courses} {ui.en.meta_courses}
+    </span>
+  </p>
+</Layout>

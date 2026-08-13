@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui, typologyLabel } from "../i18n/ui";
+import publications from "../data/publications.json";
+---
+<Layout
+  title="Publicaciones — Felipe Restrepo Calle"
+  titleEn="Publications — Felipe Restrepo Calle"
+>
+  <h1>
+    <span data-lang="es">{ui.es.publications}</span>
+    <span data-lang="en">{ui.en.publications}</span>
+  </h1>
+  <p class="muted">
+    {publications.length}{" "}
+    <Bilingual es={ui.es.publications_blurb} en={ui.en.publications_blurb} />
+  </p>
+  <ul class="card-list">
+    {publications.map((p) => {
+      const typ = typologyLabel[p.typology] || {
+        es: p.typology_label_es || p.typology,
+        en: p.typology_label_es || p.typology,
+      };
+      return (
+        <li>
+          <div class="meta">
+            {p.year} · <Bilingual es={typ.es} en={typ.en} />
+          </div>
+          {p.url ? (
+            <a href={p.url} target="_blank" rel="noopener"><strong>{p.title}</strong></a>
+          ) : (
+            <strong>{p.title}</strong>
+          )}
+          <div class="muted">{p.authors}</div>
+          {p.venue_title && <div class="meta">{p.venue_title}</div>}
+        </li>
+      );
+    })}
+  </ul>
+</Layout>

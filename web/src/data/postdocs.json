@@ -1,0 +1,24 @@
+[
+  {
+    "id": "postdoc:ufrgs-2014",
+    "institution": "Universidade Federal do Rio Grande do Sul (UFRGS) - Universidad de Alicante",
+    "project": "Desarrollo de técnicas híbridas de tolerancia a fallos para microprocesadores embebidos",
+    "project_en": "Development of hybrid fault-tolerance techniques for embedded microprocessors",
+    "place": "Porto Alegre, Brasil",
+    "place_en": "Porto Alegre, Brazil",
+    "date_from": "2014-01-01",
+    "date_to": "2014-07-31",
+    "sort_order": 1
+  },
+  {
+    "id": "postdoc:sevilla-2012",
+    "institution": "Universidad de Sevilla - Universidad de Alicante",
+    "project": "Plataforma para el diseño y análisis integral de circuitos y sistemas digitales para aplicaciones aeroespaciales",
+    "project_en": "Platform for the design and integral analysis of digital circuits and systems for aerospace applications",
+    "place": "Alicante, España",
+    "place_en": "Alicante, Spain",
+    "date_from": "2012-01-01",
+    "date_to": "2013-12-31",
+    "sort_order": 2
+  }
+]

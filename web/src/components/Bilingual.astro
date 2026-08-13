@@ -1,0 +1,13 @@
+---
+interface Props {
+  es: string;
+  en?: string;
+  class?: string;
+}
+const { es, en, class: className = "" } = Astro.props;
+const enText = (en && String(en).trim()) || es;
+---
+<span class:list={["i18n-pair", className]} data-i18n-pair>
+  <span data-lang="es">{es}</span>
+  <span data-lang="en">{enText}</span>
+</span>

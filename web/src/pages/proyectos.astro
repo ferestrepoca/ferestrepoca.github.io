@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui } from "../i18n/ui";
+import projects from "../data/projects.json";
+---
+<Layout title="Proyectos — Felipe Restrepo Calle" titleEn="Projects — Felipe Restrepo Calle">
+  <h1>
+    <span data-lang="es">{ui.es.projects}</span>
+    <span data-lang="en">{ui.en.projects}</span>
+  </h1>
+  <ul class="card-list">
+    {projects.map((p) => {
+      const detailEn = p.detail_en?.length ? p.detail_en : p.detail;
+      return (
+        <li>
+          <strong>
+            <Bilingual es={p.title_full || p.title_short} en={p.title_full_en || p.title_short_en} />
+          </strong>
+          <p class="muted"><Bilingual es={p.summary} en={p.summary_en} /></p>
+          <ul class="chips">
+            {(p.links || []).map((l) => (
+              <li>
+                <a href={l.url} target="_blank" rel="noopener">
+                  <Bilingual es={l.label} en={l.label_en || l.label} />
+                </a>
+              </li>
+            ))}
+          </ul>
+          {(p.detail || []).length > 0 && (
+            <div style="margin-top: 0.75rem;">
+              <div data-lang="es">
+                {p.detail.map((sec) => (
+                  <section style="margin-bottom: 0.75rem;">
+                    <h3 style="font-size: 1rem; margin: 0 0 0.25rem;">{sec.heading}</h3>
+                    {sec.bullets?.length ? (
+                      <ul>
+                        {sec.bullets.map((b) => <li class="muted">{b}</li>)}
+                      </ul>
+                    ) : (
+                      sec.body && <p class="muted">{sec.body}</p>
+                    )}
+                  </section>
+                ))}
+              </div>
+              <div data-lang="en">
+                {detailEn.map((sec) => (
+                  <section style="margin-bottom: 0.75rem;">
+                    <h3 style="font-size: 1rem; margin: 0 0 0.25rem;">{sec.heading}</h3>
+                    {sec.bullets?.length ? (
+                      <ul>
+                        {sec.bullets.map((b) => <li class="muted">{b}</li>)}
+                      </ul>
+                    ) : (
+                      sec.body && <p class="muted">{sec.body}</p>
+                    )}
+                  </section>
+                ))}
+              </div>
+            </div>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+</Layout>

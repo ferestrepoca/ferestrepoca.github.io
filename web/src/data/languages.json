@@ -1,0 +1,29 @@
+[
+  {
+    "id": "lang:es",
+    "name": "Español",
+    "name_en": "Spanish",
+    "level": "Nativo",
+    "level_en": "Native",
+    "certificate": "",
+    "sort_order": 1
+  },
+  {
+    "id": "lang:en",
+    "name": "Inglés",
+    "name_en": "English",
+    "level": "C1",
+    "level_en": "C1",
+    "certificate": "Cambridge Certificate in Advanced English (CAE); CEFR C1",
+    "sort_order": 2
+  },
+  {
+    "id": "lang:pt",
+    "name": "Portugués",
+    "name_en": "Portuguese",
+    "level": "Básico",
+    "level_en": "Basic",
+    "certificate": "",
+    "sort_order": 3
+  }
+]

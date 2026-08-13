@@ -1,0 +1,189 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui } from "../i18n/ui";
+import person from "../data/person.json";
+import education from "../data/education.json";
+import postdocs from "../data/postdocs.json";
+import languages from "../data/languages.json";
+import intellectualProperty from "../data/intellectual_property.json";
+
+const patents = intellectualProperty.filter((i) => i.kind === "patent");
+const software = intellectualProperty.filter((i) => i.kind === "software");
+const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
+---
+<Layout title="CV — Felipe Restrepo Calle" titleEn="CV — Felipe Restrepo Calle">
+  <h1>
+    <span data-lang="es">{ui.es.curriculum}</span>
+    <span data-lang="en">{ui.en.curriculum}</span>
+  </h1>
+  <p><Bilingual es={person.rank} en={person.rank_en} /></p>
+  <p class="muted">
+    <Bilingual es={person.department} en={person.department_en} /><br />
+    <Bilingual es={person.institution} en={person.institution_en} /> · {person.city},{" "}
+    <Bilingual es={person.country} en={person.country_en} /><br />
+    <Bilingual es={person.office} en={person.office_en} /><br />
+    {person.phone}<br />
+    {person.email}
+  </p>
+  {person.group_url ? (
+    <p>
+      <Bilingual es={ui.es.group} en={ui.en.group} />:{" "}
+      <a href={person.group_url} target="_blank" rel="noopener">{person.group_name}</a>
+    </p>
+  ) : null}
+
+  <h2>
+    <span data-lang="es">{ui.es.education}</span>
+    <span data-lang="en">{ui.en.education}</span>
+  </h2>
+  <ul class="card-list">
+    {education.map((e) => (
+      <li>
+        <strong><Bilingual es={e.title} en={e.title_en} /></strong>
+        <div class="meta">
+          <Bilingual es={e.institution} en={e.institution_en} /> ·{" "}
+          <Bilingual es={e.place} en={e.place_en} /> · {e.year}
+        </div>
+        {e.thesis_title && (
+          <div>
+            <Bilingual es={ui.es.thesis} en={ui.en.thesis} />:{" "}
+            {e.thesis_url ? (
+              <a href={e.thesis_url} target="_blank" rel="noopener">{e.thesis_title}</a>
+            ) : (
+              e.thesis_title
+            )}
+          </div>
+        )}
+        {(e.honors || e.honors_en) && (
+          <div class="muted"><Bilingual es={e.honors} en={e.honors_en} /></div>
+        )}
+        {e.extra_url && (
+          <div>
+            <a href={e.extra_url} target="_blank" rel="noopener">
+              <Bilingual
+                es={e.extra_label || "Más info"}
+                en={e.extra_label_en || e.extra_label || "More info"}
+              />
+            </a>
+          </div>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <h2>
+    <span data-lang="es">{ui.es.postdocs}</span>
+    <span data-lang="en">{ui.en.postdocs}</span>
+  </h2>
+  <ul class="card-list">
+    {postdocs.map((p) => (
+      <li>
+        <strong>{p.institution}</strong>
+        <div class="muted"><Bilingual es={p.project} en={p.project_en} /></div>
+        <div class="meta">
+          <Bilingual es={p.place} en={p.place_en} /> · {p.date_from} — {p.date_to}
+        </div>
+      </li>
+    ))}
+  </ul>
+
+  <h2>
+    <span data-lang="es">{ui.es.languages}</span>
+    <span data-lang="en">{ui.en.languages}</span>
+  </h2>
+  <ul>
+    {languages.map((l) => (
+      <li>
+        <strong><Bilingual es={l.name} en={l.name_en} /></strong> —{" "}
+        <Bilingual es={l.level} en={l.level_en} />
+        {l.certificate ? <span class="muted"> ({l.certificate})</span> : null}
+      </li>
+    ))}
+  </ul>
+
+  <h2>
+    <span data-lang="es">{ui.es.ip}</span>
+    <span data-lang="en">{ui.en.ip}</span>
+  </h2>
+  <h3>
+    <span data-lang="es">{ui.es.patents}</span>
+    <span data-lang="en">{ui.en.patents}</span>
+  </h3>
+  <ul class="card-list">
+    {patents.map((p) => (
+      <li>
+        <strong><Bilingual es={p.title} en={p.title_en} /></strong>
+        <div class="muted">{p.creators}</div>
+        <div class="meta">
+          <Bilingual es={p.registry} en={p.registry_en} /> · {p.year}
+        </div>
+      </li>
+    ))}
+  </ul>
+  <h3>
+    <span data-lang="es">{ui.es.software}</span>
+    <span data-lang="en">{ui.en.software}</span>
+  </h3>
+  <ul class="card-list">
+    {software.map((s) => (
+      <li>
+        <strong><Bilingual es={s.title} en={s.title_en} /></strong>
+        <div class="muted"><Bilingual es={s.description} en={s.description_en} /></div>
+        <div class="meta">
+          {s.creators}
+          {s.rights_holder ? (
+            <>
+              {" · "}
+              <Bilingual es={s.rights_holder} en={s.rights_holder_en} />
+            </>
+          ) : null}{" "}
+          · {s.year}
+        </div>
+        <ul class="chips">
+          {s.url && (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener">
+                <Bilingual es={ui.es.available} en={ui.en.available} />
+              </a>
+            </li>
+          )}
+          {s.url_source && (
+            <li>
+              <a href={s.url_source} target="_blank" rel="noopener">
+                <Bilingual es={ui.es.source_code} en={ui.en.source_code} />
+              </a>
+            </li>
+          )}
+        </ul>
+      </li>
+    ))}
+  </ul>
+
+  <h2>
+    <span data-lang="es">{ui.es.identifiers}</span>
+    <span data-lang="en">{ui.en.identifiers}</span>
+  </h2>
+  <ul class="chips">
+    {person.profiles.map((p) => (
+      <li>
+        <a href={p.url} target="_blank" rel="noopener">
+          <Bilingual es={p.label} en={p.label_en || p.label} />
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <h2>
+    <span data-lang="es">{ui.es.interest_areas}</span>
+    <span data-lang="en">{ui.en.interest_areas}</span>
+  </h2>
+  <ul>
+    {person.areas.map((n, i) => (
+      <li>
+        <span data-lang="es">{n}</span>
+        <span data-lang="en">{areasEn[i] || n}</span>
+      </li>
+    ))}
+  </ul>
+</Layout>

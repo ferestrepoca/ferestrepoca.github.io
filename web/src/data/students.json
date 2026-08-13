@@ -1,0 +1,574 @@
+[
+  {
+    "id": "estudiante:alfonso-hoyos-jean-pierre",
+    "name_display": "Alfonso Hoyos, Jean Pierre",
+    "name_sort": "Alfonso Hoyos, Jean Pierre",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/60127",
+      "title": "Prototipado automático de sistemas de información transaccionales usando una especificación en lenguaje natural restringido",
+      "year": "2017",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/60127"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/60127"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:aponte-moreno-john-alexander",
+    "name_display": "Aponte Moreno, John Alexander",
+    "name_sort": "Aponte Moreno, John Alexander",
+    "degree_highest": "doctorado",
+    "n_tesis": "1",
+    "role_degree": "doctorado",
+    "thesis": {
+      "id": "tesis:unal/85008",
+      "title": "Design of Fault Tolerant Embedded Systems using Approximate Computing Techniques.",
+      "year": "2023",
+      "degree": "doctorado",
+      "url": "https://repositorio.unal.edu.co/handle/unal/85008"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/85008"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:baquero-pico-cristian-adolfo",
+    "name_display": "Baquero Pico, Cristian Adolfo",
+    "name_sort": "Baquero Pico, Cristian Adolfo",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/89211",
+      "title": "Modelo de predicción de abandono de clientes en un marketplace mediante técnicas de machine learning",
+      "year": "2025",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/89211"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/89211"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:baquero-vargas-juan-felipe",
+    "name_display": "Baquero Vargas, Juan Felipe",
+    "name_sort": "Baquero Vargas, Juan Felipe",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/76556",
+      "title": "An information retrieval strategy for large multimodal data collections involving source code and natural language",
+      "year": "2019",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/76556"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/76556"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:canas-palomino-luis-alfonso",
+    "name_display": "Cañas Palomino, Luis Alfonso",
+    "name_sort": "Cañas Palomino, Luis Alfonso",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/85634",
+      "title": "Development of a software method to assist in the thematic analysis of responses to open ended questions in Spanish-language surveys",
+      "year": "2023",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/85634"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/85634"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:castellanos-morales-hugo-armando",
+    "name_display": "Castellanos Morales, Hugo Armando",
+    "name_sort": "Castellanos Morales, Hugo Armando",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/60068",
+      "title": "Source code analysis on student assignments using machine learning techniques",
+      "year": "2017",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/60068"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/60068"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:chaparro-amaya-edna-johanna",
+    "name_display": "Chaparro Amaya, Edna Johanna",
+    "name_sort": "Chaparro Amaya, Edna Johanna",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/83049",
+      "title": "Analítica de aprendizaje en la asignatura Programación de Computadores: una investigación basada en métodos mixtos",
+      "year": "2022",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/83049"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/83049"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:correa-lombana-juan-manuel",
+    "name_display": "Correa Lombana, Juan Manuel",
+    "name_sort": "Correa Lombana, Juan Manuel",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/89150",
+      "title": "Análisis automatizado de comparación de productos con técnicas de procesamiento de lenguaje natural para artículos deportivos extraídos de canales de comercio electrónico",
+      "year": "2025",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/89150"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/89150"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:corso-pinzon-andres-francisco-jose",
+    "name_display": "Corso Pinzón, Andrés Francisco José",
+    "name_sort": "Corso Pinzón, Andrés Francisco José",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/83931",
+      "title": "Prototipo de una herramienta de software de calificación automática con proceso de realimentación para el apoyo al aprendizaje de lenguajes de descripción de hardware",
+      "year": "2023",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/83931"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/83931"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:cruz-camacho-elkin-alejandro",
+    "name_display": "Cruz Camacho, Elkin Alejandro",
+    "name_sort": "Cruz Camacho, Elkin Alejandro",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/76335",
+      "title": "Static Analysis of Python Programs using Abstract Interpretation: An Application to Tensor Shape Analysis",
+      "year": "2019",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/76335"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/76335"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:cruz-chu-mariana-beatriz",
+    "name_display": "Cruz Chú, Mariana Beatriz",
+    "name_sort": "Cruz Chú, Mariana Beatriz",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/89979",
+      "title": "Sistema de asistencia virtual basado en LLMs para el manejo del cultivo de papa",
+      "year": "2026",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/89979"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/89979"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:cuervo-cely-karen-daniela",
+    "name_display": "Cuervo Cely, Karen Daniela",
+    "name_sort": "Cuervo Cely, Karen Daniela",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/79756",
+      "title": "Evaluación del efecto de la gamificación asistida por computador en la motivación de los estudiantes de programación de computadores",
+      "year": "2021",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/79756"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/79756"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:del-pozo-falconi-ivan-mauricio",
+    "name_display": "Del Pozo Falconí, Iván Mauricio",
+    "name_sort": "Del Pozo Falconí, Iván Mauricio",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/64771",
+      "title": "Social engineering: psychology applied to Information Security",
+      "year": "2018",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/64771"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/64771"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:echavarria-florez-ingrid-sofia",
+    "name_display": "Echavarría Flórez, Ingrid Sofía",
+    "name_sort": "Echavarría Flórez, Ingrid Sofía",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/77441",
+      "title": "Métricas de legibilidad del software: una revisión sistemática de literatura",
+      "year": "2020",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/77441"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/77441"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:garavito-mendez-oscar-javier",
+    "name_display": "Garavito Mendez, Oscar Javier",
+    "name_sort": "Garavito Mendez, Oscar Javier",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/76553",
+      "title": "Building a Developer’s Reputation Model for Programming Contest Platforms based on Source Code Analysis",
+      "year": "2019",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/76553"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/76553"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:lozano-rojas-hernan-dario",
+    "name_display": "Lozano Rojas, Hernan Dario",
+    "name_sort": "Lozano Rojas, Hernan Dario",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/82923",
+      "title": "Evaluación del impacto en la motivación en el aprendizaje de los estudiantes de programación de computadores mediante el uso de una herramienta de evaluación automática",
+      "year": "2022",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/82923"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/82923"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:mendez-lara-jhon-alexis",
+    "name_display": "Mendez Lara, Jhon Alexis",
+    "name_sort": "Mendez Lara, Jhon Alexis",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/80862",
+      "title": "Prototipo de herramienta computacional para el aprendizaje colaborativo de programación de computadores",
+      "year": "2021",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/80862"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/80862"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:olaya-castro-hendrik-eugenio",
+    "name_display": "Olaya Castro, Hendrik Eugenio",
+    "name_sort": "Olaya Castro, Hendrik Eugenio",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/89978",
+      "title": "Prototipo de asistente virtual como apoyo al proceso de aprendizaje en una asignatura de análisis y visualización de datos utilizando grandes modelos de lenguaje",
+      "year": "2026",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/89978"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/89978"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:pabon-correa-david-alejandro",
+    "name_display": "Pabón Correa, David Alejandro",
+    "name_sort": "Pabón Correa, David Alejandro",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/89227",
+      "title": "Prototipo de plataforma educativa basada en modelos de lenguaje para el apoyo en el aprendizaje de matemáticas básicas",
+      "year": "2025",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/89227"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/89227"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:pena-vargas-manuel-alejandro",
+    "name_display": "Peña Vargas, Manuel Alejandro",
+    "name_sort": "Peña Vargas, Manuel Alejandro",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/86898",
+      "title": "Efecto de un entorno de aprendizaje de programación de computadores basado en el desarrollo de videojuegos sobre la motivación por aprender de los estudiantes",
+      "year": "2024",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/86898"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/86898"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:ramirez-espejo-roger-steven",
+    "name_display": "Ramírez Espejo, Roger Steven",
+    "name_sort": "Ramírez Espejo, Roger Steven",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/84828",
+      "title": "Análisis automático de código fuente aplicado en el software para comercio en línea: SAP Commerce Cloud",
+      "year": "2023",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/84828"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/84828"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:rivera-cardenas-david-leonardo",
+    "name_display": "Rivera Cárdenas, David Leonardo",
+    "name_sort": "Rivera Cárdenas, David Leonardo",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/88357",
+      "title": "Evaluación automática de casos de prueba de ejercicios de programación de computadores",
+      "year": "2025",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/88357"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/88357"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:rodriguez-barreto-julian-mauricio",
+    "name_display": "Rodriguez Barreto, Julian Mauricio",
+    "name_sort": "Rodriguez Barreto, Julian Mauricio",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/88492",
+      "title": "Generación de recomendaciones automáticas de inversión en la Bolsa de Valores de Colombia mediante agentes autónomos de inteligencia artificial",
+      "year": "2025",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/88492"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/88492"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:rodriguez-pinto-father-alexander",
+    "name_display": "Rodriguez Pinto, Father Alexander",
+    "name_sort": "Rodriguez Pinto, Father Alexander",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/86557",
+      "title": "Evaluación del efecto de un laboratorio híbrido en el aprendizaje de un Lenguaje de Descripción de Hardware (HDL)",
+      "year": "2024",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/86557"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/86557"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:rosales-castro-lina-fernanda",
+    "name_display": "Rosales Castro, Lina Fernanda",
+    "name_sort": "Rosales Castro, Lina Fernanda",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/76549",
+      "title": "Automatic source code analysis forassessment of solutions toprogramming tasks",
+      "year": "2019",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/76549"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/76549"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:torres-jimenez-stephanie",
+    "name_display": "Torres Jiménez, Stephanie",
+    "name_sort": "Torres Jiménez, Stephanie",
+    "degree_highest": "maestria",
+    "n_tesis": "1",
+    "role_degree": "maestria",
+    "thesis": {
+      "id": "tesis:unal/79877",
+      "title": "Diseño y validación interna de un instrumento de autoinforme para caracterizar las estrategias de aprendizaje de programación de computadores",
+      "year": "2021",
+      "degree": "maestria",
+      "url": "https://repositorio.unal.edu.co/handle/unal/79877"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/79877"
+      }
+    ]
+  }
+]
