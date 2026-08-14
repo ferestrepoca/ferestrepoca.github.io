@@ -1,0 +1,62 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui, levelKey } from "../i18n/ui";
+import courses from "../data/courses.json";
+
+const byTerm = new Map();
+for (const c of courses) {
+  const key = c.term || "otros";
+  if (!byTerm.has(key)) byTerm.set(key, []);
+  byTerm.get(key).push(c);
+}
+const terms = [...byTerm.keys()].sort((a, b) => b.localeCompare(a));
+---
+<Layout title="Docencia — Felipe Restrepo Calle" titleEn="Teaching — Felipe Restrepo Calle">
+  <h1>
+    <span data-lang="es">{ui.es.teaching}</span>
+    <span data-lang="en">{ui.en.teaching}</span>
+  </h1>
+  <p class="muted">
+    <Bilingual es={ui.es.teaching_source} en={ui.en.teaching_source} />:{" "}
+    <code>data/sql/seed/courses.sql</code>
+  </p>
+  {terms.map((term) => (
+    <section>
+      <h2>
+        {term === "otros" ? (
+          <>
+            <span data-lang="es">{ui.es.other_mooc}</span>
+            <span data-lang="en">{ui.en.other_mooc}</span>
+          </>
+        ) : (
+          term
+        )}
+      </h2>
+      <ul class="card-list">
+        {byTerm.get(term).map((c) => {
+          const lk = levelKey(c.level);
+          return (
+            <li>
+              <strong>{c.title}</strong>
+              <div class="meta">
+                {lk ? <Bilingual es={ui.es[lk]} en={ui.en[lk]} /> : c.level}
+                {c.current && (
+                  <>
+                    {" · "}
+                    <Bilingual es={ui.es.current} en={ui.en.current} />
+                  </>
+                )}
+              </div>
+              {c.url && (
+                <a href={c.url} target="_blank" rel="noopener">
+                  <Bilingual es={ui.es.open} en={ui.en.open} />
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  ))}
+</Layout>

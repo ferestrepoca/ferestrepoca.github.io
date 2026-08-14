@@ -1,0 +1,97 @@
+{
+  "id": "docente:ferestrepoca",
+  "name_display": "Felipe Restrepo Calle",
+  "name_sort": "Restrepo Calle, Felipe",
+  "email": "ferestrepoca@unal.edu.co",
+  "rank": "Profesor asociado",
+  "rank_en": "Associate Professor",
+  "status": "Activo",
+  "office": "114 Edificio 453 (Aulas de Ingeniería)",
+  "office_en": "114 Building 453 (Engineering classrooms)",
+  "phone": "+57 1 316 5000 ext. 14077/14011",
+  "orcid": "0000-0003-4226-1324",
+  "institution": "Universidad Nacional de Colombia",
+  "institution_en": "National University of Colombia",
+  "department": "Departamento de Ingeniería de Sistemas e Industrial",
+  "department_en": "Department of Systems and Industrial Engineering",
+  "city": "Bogotá D.C.",
+  "country": "Colombia",
+  "country_en": "Colombia",
+  "group_name": "Programming Languages and Systems (PLaS)",
+  "group_url": "http://plas.unal.edu.co/",
+  "image_path": "/img/frc_pic.jpg",
+  "areas": [
+    "Educación en ingeniería y programación de computadores",
+    "Ciencia de datos y machine learning",
+    "Lenguajes de programación, análisis automático de código, procesadores de lenguaje",
+    "Tolerancia a fallos, confiabilidad, sistemas embebidos, computación aproximada"
+  ],
+  "areas_en": [
+    "Computer programming and engineering education",
+    "Data science and machine learning",
+    "Programming languages, automatic source code analysis, language processors",
+    "Fault tolerance, dependability, embedded systems, approximate computing"
+  ],
+  "aliases": [
+    "Restrepo Calle, Felipe",
+    "Restrepo-Calle, Felipe",
+    "Restrepo Calle, Felipe (Thesis advisor)"
+  ],
+  "profiles": [
+    {
+      "label": "ORCID",
+      "label_en": "ORCID",
+      "url": "https://orcid.org/0000-0003-4226-1324"
+    },
+    {
+      "label": "Google Scholar",
+      "label_en": "Google Scholar",
+      "url": "https://scholar.google.com/citations?user=gDt_gQ0AAAAJ"
+    },
+    {
+      "label": "Scopus",
+      "label_en": "Scopus",
+      "url": "https://www.scopus.com/authid/detail.uri?authorId=36195972000"
+    },
+    {
+      "label": "Web of Science",
+      "label_en": "Web of Science",
+      "url": "https://www.webofscience.com/wos/author/rid/L-4549-2013"
+    },
+    {
+      "label": "OpenAlex",
+      "label_en": "OpenAlex",
+      "url": "https://openalex.org/A5014729135"
+    },
+    {
+      "label": "ResearchGate",
+      "label_en": "ResearchGate",
+      "url": "https://www.researchgate.net/profile/Felipe-Restrepo-Calle"
+    },
+    {
+      "label": "CvLAC",
+      "label_en": "CvLAC",
+      "url": "https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000499625"
+    },
+    {
+      "label": "HERMES",
+      "label_en": "HERMES",
+      "url": "http://www.hermes.unal.edu.co/pages/Docentes/Docente.jsf?u=ferestrepoca"
+    },
+    {
+      "label": "Sitio web",
+      "label_en": "Website",
+      "url": "https://ferestrepoca.github.io/"
+    },
+    {
+      "label": "LinkedIn",
+      "label_en": "LinkedIn",
+      "url": "https://co.linkedin.com/in/felipe-restrepo-calle-74344063"
+    },
+    {
+      "label": "GitHub",
+      "label_en": "GitHub",
+      "url": "https://github.com/ferestrepoca"
+    }
+  ]
+}

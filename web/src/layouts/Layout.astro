@@ -1,0 +1,66 @@
+---
+import { ui } from "../i18n/ui";
+
+interface Props {
+  title: string;
+  titleEn?: string;
+  description?: string;
+  descriptionEn?: string;
+}
+const {
+  title,
+  titleEn = title,
+  description = "Sitio personal — Felipe Restrepo Calle",
+  descriptionEn = "Personal website — Felipe Restrepo Calle",
+} = Astro.props;
+
+const nav = [
+  { href: "/", key: "nav_home" },
+  { href: "/publicaciones", key: "nav_pubs" },
+  { href: "/tesis", key: "nav_theses" },
+  { href: "/estudiantes", key: "nav_students" },
+  { href: "/docencia", key: "nav_teaching" },
+  { href: "/proyectos", key: "nav_projects" },
+  { href: "/cv", key: "nav_cv" },
+] as const;
+---
+<!doctype html>
+<html lang="es" class="lang-es" data-title-es={title} data-title-en={titleEn}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} data-desc-es={description} data-desc-en={descriptionEn} />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="/styles/shell.css" />
+    <script src="/scripts/lang.js" is:inline></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <p class="brand"><a href="/">Felipe Restrepo Calle</a></p>
+      <div class="header-tools">
+        <nav aria-label={ui.es.nav_aria}>
+          {nav.map((item) => (
+            <a href={item.href}>
+              <span data-lang="es">{ui.es[item.key]}</span>
+              <span data-lang="en">{ui.en[item.key]}</span>
+            </a>
+          ))}
+        </nav>
+        <div class="lang-switch" role="group" aria-label={ui.es.lang_switch}>
+          <button type="button" data-set-lang="es" aria-pressed="true">ES</button>
+          <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>
+        <span data-lang="es">{ui.es.footer}</span>
+        <span data-lang="en">{ui.en.footer}</span>
+      </p>
+    </footer>
+  </body>
+</html>

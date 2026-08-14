@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui, degreeKey } from "../i18n/ui";
+import students from "../data/students.json";
+---
+<Layout title="Estudiantes — Felipe Restrepo Calle" titleEn="Students — Felipe Restrepo Calle">
+  <h1>
+    <span data-lang="es">{ui.es.students}</span>
+    <span data-lang="en">{ui.en.students}</span>
+  </h1>
+  <p class="muted">
+    {students.length} <Bilingual es={ui.es.students_blurb} en={ui.en.students_blurb} />
+  </p>
+  <ul class="card-list">
+    {students.map((s) => {
+      const roleKey =
+        s.role_degree === "doctorado"
+          ? "role_phd"
+          : s.role_degree === "maestria"
+            ? "role_msc"
+            : "";
+      const dk = degreeKey(s.thesis?.degree || s.degree_highest);
+      return (
+        <li>
+          <strong>{s.name_display}</strong>
+          <div class="meta">
+            {roleKey ? (
+              <Bilingual es={ui.es[roleKey]} en={ui.en[roleKey]} />
+            ) : dk ? (
+              <Bilingual es={ui.es[dk]} en={ui.en[dk]} />
+            ) : (
+              s.degree_highest
+            )}
+          </div>
+          {s.thesis && (
+            <div>
+              {s.thesis.url ? (
+                <a href={s.thesis.url} target="_blank" rel="noopener">{s.thesis.title}</a>
+              ) : (
+                s.thesis.title
+              )}
+              <div class="meta">
+                {s.thesis.year}
+                {s.thesis.degree && (
+                  <>
+                    {" · "}
+                    {degreeKey(s.thesis.degree) ? (
+                      <Bilingual
+                        es={ui.es[degreeKey(s.thesis.degree)]}
+                        en={ui.en[degreeKey(s.thesis.degree)]}
+                      />
+                    ) : (
+                      s.thesis.degree
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+</Layout>

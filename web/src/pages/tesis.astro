@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bilingual from "../components/Bilingual.astro";
+import { ui, degreeKey } from "../i18n/ui";
+import theses from "../data/theses.json";
+---
+<Layout
+  title="Tesis dirigidas — Felipe Restrepo Calle"
+  titleEn="Supervised theses — Felipe Restrepo Calle"
+>
+  <h1>
+    <span data-lang="es">{ui.es.theses}</span>
+    <span data-lang="en">{ui.en.theses}</span>
+  </h1>
+  <p class="muted">
+    {theses.length} <Bilingual es={ui.es.theses_blurb} en={ui.en.theses_blurb} />
+  </p>
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <span data-lang="es">{ui.es.year}</span>
+          <span data-lang="en">{ui.en.year}</span>
+        </th>
+        <th>
+          <span data-lang="es">{ui.es.degree}</span>
+          <span data-lang="en">{ui.en.degree}</span>
+        </th>
+        <th>
+          <span data-lang="es">{ui.es.title}</span>
+          <span data-lang="en">{ui.en.title}</span>
+        </th>
+        <th>
+          <span data-lang="es">{ui.es.student}</span>
+          <span data-lang="en">{ui.en.student}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {theses.map((t) => {
+        const dk = degreeKey(t.degree);
+        return (
+          <tr>
+            <td>{t.year}</td>
+            <td>
+              {dk ? <Bilingual es={ui.es[dk]} en={ui.en[dk]} /> : t.degree}
+            </td>
+            <td>
+              {t.item_url ? (
+                <a href={t.item_url} target="_blank" rel="noopener">{t.title}</a>
+              ) : (
+                t.title
+              )}
+            </td>
+            <td>{t.student_name}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</Layout>

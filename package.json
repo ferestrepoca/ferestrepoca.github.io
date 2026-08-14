@@ -1,0 +1,18 @@
+{
+  "name": "ferestrepoca-github-io",
+  "private": true,
+  "type": "module",
+  "description": "Sitio personal — datos canónicos (SQL) + Astro",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "db:build": "node scripts/db-build.mjs",
+    "data:export": "node scripts/export-web-data.mjs",
+    "harvest:theses": "node scripts/harvest-theses.mjs",
+    "harvest:publications": "node scripts/harvest-publications.mjs",
+    "dev": "npm run db:build && npm run data:export && npm run --prefix web dev",
+    "build": "npm run db:build && npm run data:export && npm run --prefix web build",
+    "preview": "npm run --prefix web preview"
+  }
+}

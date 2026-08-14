@@ -1,0 +1,632 @@
+[
+  {
+    "id": "curso:2024-1:lenguajes-de-programacion",
+    "term": "2024-1",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2024-1/",
+    "current": true,
+    "sort_order": 1
+  },
+  {
+    "id": "curso:2024-1:seminario-de-profundizacion-i",
+    "term": "2024-1",
+    "title": "Seminario de profundización I",
+    "level": "maestria",
+    "url": "https://mlds.unal.edu.co/courses/course-v1:Ing_sistemas_computacion+SP1+2024_1/about",
+    "current": true,
+    "sort_order": 2
+  },
+  {
+    "id": "curso:2024-1:seminario-de-investigacion-profundizacion-ii",
+    "term": "2024-1",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminarioii2024-1/",
+    "current": true,
+    "sort_order": 3
+  },
+  {
+    "id": "curso:2024-1:investigacion-educativa-en-el-aula-de-ingenieria",
+    "term": "2024-1",
+    "title": "Investigación educativa en el aula de ingeniería",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/inv-educativa-aula-ing-2024-1/",
+    "current": true,
+    "sort_order": 4
+  },
+  {
+    "id": "curso:2024-1:analisis-y-visualizacion-de-datos",
+    "term": "2024-1",
+    "title": "Análisis y visualización de datos",
+    "level": "maestria",
+    "url": "https://mlds.unal.edu.co/courses/course-v1:MLDS+mlds1+2024_1/about",
+    "current": true,
+    "sort_order": 5
+  },
+  {
+    "id": "curso:2024-1:procesamiento-y-entendimiento-de-lenguaje-natural-nlp",
+    "term": "2024-1",
+    "title": "Procesamiento y entendimiento de lenguaje natural - NLP",
+    "level": "maestria",
+    "url": "https://mlds.unal.edu.co/courses/course-v1:MLDS+mlds4+2024_1/about",
+    "current": true,
+    "sort_order": 6
+  },
+  {
+    "id": "curso:2024-1:desarrollo-de-aplicaciones-con-grandes-modelos-de-lenguaje-l",
+    "term": "2024-1",
+    "title": "Desarrollo de aplicaciones con grandes modelos de lenguaje - LLMs",
+    "level": "educacion_continua",
+    "url": "https://mlds.unal.edu.co/courses/course-v1:MLDS+mlds7+2024_1/about",
+    "current": true,
+    "sort_order": 7
+  },
+  {
+    "id": "curso:2023-2:lenguajes-de-programacion",
+    "term": "2023-2",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2023-2",
+    "current": false,
+    "sort_order": 1008
+  },
+  {
+    "id": "curso:2023-2:seminario-de-investigacion-profundizacion-ii",
+    "term": "2023-2",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminario-ii-2023-2/",
+    "current": false,
+    "sort_order": 1009
+  },
+  {
+    "id": "curso:2023-2:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2023-2",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://uecp.edunext.io/courses/course-v1:uecp+mlds1+2023_2/about",
+    "current": false,
+    "sort_order": 1010
+  },
+  {
+    "id": "curso:2023-2:procesamiento-y-entendimiento-de-lenguaje-natural-nlp",
+    "term": "2023-2",
+    "title": "Procesamiento y entendimiento de lenguaje natural - NLP",
+    "level": "educacion_continua",
+    "url": "https://uecp.edunext.io/courses/course-v1:uecp+mlds4+2023_2/about",
+    "current": false,
+    "sort_order": 1011
+  },
+  {
+    "id": "curso:2023-1:lenguajes-de-programacion",
+    "term": "2023-1",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2023-1",
+    "current": false,
+    "sort_order": 1012
+  },
+  {
+    "id": "curso:2023-1:seminario-de-investigacion-profundizacion-ii",
+    "term": "2023-1",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminario-ii-2023-1/",
+    "current": false,
+    "sort_order": 1013
+  },
+  {
+    "id": "curso:2023-1:investigacion-educativa-en-el-aula-de-ingenieria",
+    "term": "2023-1",
+    "title": "Investigación educativa en el aula de ingeniería",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/inv-educativa-aula-ing-2023-1/",
+    "current": false,
+    "sort_order": 1014
+  },
+  {
+    "id": "curso:2023-1:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2023-1",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://uecp.edunext.io/courses/course-v1:uecp+mlds1+2023_1/about",
+    "current": false,
+    "sort_order": 1015
+  },
+  {
+    "id": "curso:2023-1:procesamiento-y-entendimiento-de-lenguaje-natural-nlp",
+    "term": "2023-1",
+    "title": "Procesamiento y entendimiento de lenguaje natural - NLP",
+    "level": "educacion_continua",
+    "url": "https://uecp.edunext.io/courses/course-v1:uecp+mlds4+2023_1/about",
+    "current": false,
+    "sort_order": 1016
+  },
+  {
+    "id": "curso:2022-2:lenguajes-de-programacion",
+    "term": "2022-2",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2022-2",
+    "current": false,
+    "sort_order": 1017
+  },
+  {
+    "id": "curso:2022-2:seminario-de-investigacion-profundizacion-ii",
+    "term": "2022-2",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminarioii2022-2",
+    "current": false,
+    "sort_order": 1018
+  },
+  {
+    "id": "curso:2022-2:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2022-2",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://uecp.edunext.io/courses/course-v1:uecp+mlds1+2022_2/about",
+    "current": false,
+    "sort_order": 1019
+  },
+  {
+    "id": "curso:2022-1:lenguajes-de-programacion",
+    "term": "2022-1",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2022-1",
+    "current": false,
+    "sort_order": 1020
+  },
+  {
+    "id": "curso:2022-1:seminario-de-investigacion-profundizacion-ii",
+    "term": "2022-1",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminario-ii-2022-1",
+    "current": false,
+    "sort_order": 1021
+  },
+  {
+    "id": "curso:2022-1:investigacion-educativa-en-el-aula-de-ingenieria",
+    "term": "2022-1",
+    "title": "Investigación educativa en el aula de ingeniería",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/inv-educativa-aula-ing-2022-1",
+    "current": false,
+    "sort_order": 1022
+  },
+  {
+    "id": "curso:2022-1:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2022-1",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://uecp.edunext.io/courses/course-v1:uecp+mlds1+2022_1/about",
+    "current": false,
+    "sort_order": 1023
+  },
+  {
+    "id": "curso:2021-2:lenguajes-de-programacion",
+    "term": "2021-2",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2021-2",
+    "current": false,
+    "sort_order": 1024
+  },
+  {
+    "id": "curso:2021-2:seminario-de-investigacion-profundizacion-ii",
+    "term": "2021-2",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminario-ii-2021-2",
+    "current": false,
+    "sort_order": 1025
+  },
+  {
+    "id": "curso:2021-2:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2021-2",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://aula-data-ing.edu-labs.co/",
+    "current": false,
+    "sort_order": 1026
+  },
+  {
+    "id": "curso:2021-1:lenguajes-de-programacion",
+    "term": "2021-1",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2021-1",
+    "current": false,
+    "sort_order": 1027
+  },
+  {
+    "id": "curso:2021-1:seminario-de-investigacion-profundizacion-ii",
+    "term": "2021-1",
+    "title": "Seminario de investigación/profundización II",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/seminario-ii-2021-1",
+    "current": false,
+    "sort_order": 1028
+  },
+  {
+    "id": "curso:2021-1:investigacion-educativa-en-el-aula-de-ingenieria",
+    "term": "2021-1",
+    "title": "Investigación educativa en el aula de ingeniería",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/inv-educativa-aula-ing-2021-1",
+    "current": false,
+    "sort_order": 1029
+  },
+  {
+    "id": "curso:2021-1:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2021-1",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://aula-data-ing.edu-labs.co/",
+    "current": false,
+    "sort_order": 1030
+  },
+  {
+    "id": "curso:2020-2:lenguajes-de-programacion",
+    "term": "2020-2",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2020-2",
+    "current": false,
+    "sort_order": 1031
+  },
+  {
+    "id": "curso:2020-2:temas-avanzados-de-lenguajes-de-programacion",
+    "term": "2020-2",
+    "title": "Temas avanzados de lenguajes de programación",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/temasavanzadoslenguajes2020-2/",
+    "current": false,
+    "sort_order": 1032
+  },
+  {
+    "id": "curso:2020-2:analisis-y-visualizacion-de-datos-con-python",
+    "term": "2020-2",
+    "title": "Análisis y visualización de datos con Python",
+    "level": "educacion_continua",
+    "url": "https://aula-data-ing.edu-labs.co/",
+    "current": false,
+    "sort_order": 1033
+  },
+  {
+    "id": "curso:2020-1:programacion-de-computadores",
+    "term": "2020-1",
+    "title": "Programación de computadores",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/programacion-2020-1/",
+    "current": false,
+    "sort_order": 1034
+  },
+  {
+    "id": "curso:2020-1:lenguajes-de-programacion",
+    "term": "2020-1",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2020-1",
+    "current": false,
+    "sort_order": 1035
+  },
+  {
+    "id": "curso:2020-1:introduccion-al-analisis-y-visualizacion-de-datos-con-python",
+    "term": "2020-1",
+    "title": "Introducción al análisis y visualización de datos con Python",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/mlds-2020-1a/home/contenido/modulo-1",
+    "current": false,
+    "sort_order": 1036
+  },
+  {
+    "id": "curso:2020-1:procesamiento-y-entendimiento-de-lenguaje-natural-con-python",
+    "term": "2020-1",
+    "title": "Procesamiento y entendimiento de lenguaje natural con Python (NLP)",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/mlds-2020-1a-avanzado/",
+    "current": false,
+    "sort_order": 1037
+  },
+  {
+    "id": "curso:2019-2:lenguajes-de-programacion",
+    "term": "2019-2",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2019-2",
+    "current": false,
+    "sort_order": 1038
+  },
+  {
+    "id": "curso:2019-2:temas-avanzados-en-lenguajes-de-programacion",
+    "term": "2019-2",
+    "title": "Temas Avanzados en Lenguajes de Programación",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/temasavanzadoslenguajes2019-2",
+    "current": false,
+    "sort_order": 1039
+  },
+  {
+    "id": "curso:2019-2:introduccion-al-analisis-y-visualizacion-de-datos-con-python",
+    "term": "2019-2",
+    "title": "Introducción al análisis y visualización de datos con Python",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/mlds-2020-1a/home/contenido/modulo-1",
+    "current": false,
+    "sort_order": 1040
+  },
+  {
+    "id": "curso:2019-2:procesamiento-y-entendimiento-de-lenguaje-natural-con-python",
+    "term": "2019-2",
+    "title": "Procesamiento y entendimiento de lenguaje natural con Python (NLP)",
+    "level": "pregrado",
+    "url": "https://sites.google.com/view/programamldsunal-2019-2adv/home/contenido/procesamiento-y-entendimiento-de-lenguaje-natural",
+    "current": false,
+    "sort_order": 1041
+  },
+  {
+    "id": "curso:2019-1:lenguajes-de-programacion",
+    "term": "2019-1",
+    "title": "Lenguajes de programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2019-1",
+    "current": false,
+    "sort_order": 1042
+  },
+  {
+    "id": "curso:2019-1:temas-avanzados-en-lenguajes-de-programacion",
+    "term": "2019-1",
+    "title": "Temas Avanzados en Lenguajes de Programación",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/temasavanzadoslenguajes2019-1",
+    "current": false,
+    "sort_order": 1043
+  },
+  {
+    "id": "curso:2019-1:introduccion-al-analisis-y-visualizacion-de-datos-con-python",
+    "term": "2019-1",
+    "title": "Introducción al análisis y visualización de datos con Python (Diplomado Marzo 2019)",
+    "level": "pregrado",
+    "url": "#",
+    "current": false,
+    "sort_order": 1044
+  },
+  {
+    "id": "curso:2019-1:introduccion-al-analisis-y-visualizacion-de-datos-con-python",
+    "term": "2019-1",
+    "title": "Introducción al análisis y visualización de datos con Python (Diplomado Mayo 2019)",
+    "level": "pregrado",
+    "url": "https://sites.google.com/view/diplomadomldsunal2019-1b/home/contenido/modulo-1?authuser=1",
+    "current": false,
+    "sort_order": 1045
+  },
+  {
+    "id": "curso:2018-2:seminario-de-profundizacion-ii-maestria-en-convenio-con-unil",
+    "term": "2018-2",
+    "title": "Seminario de Profundización II (Maestría en Convenio con Unillanos)",
+    "level": "maestria",
+    "url": "https://sites.google.com/a/unal.edu.co/seminario-de-profundizacion-2018-ii-convenio-unillanos/home?pli=1",
+    "current": false,
+    "sort_order": 1046
+  },
+  {
+    "id": "curso:2018-2:lenguajes-de-programacion",
+    "term": "2018-2",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2018-2/?pli=1&authuser=1",
+    "current": false,
+    "sort_order": 1047
+  },
+  {
+    "id": "curso:2018-2:introduccion-al-analisis-y-visualizacion-de-datos-con-python",
+    "term": "2018-2",
+    "title": "Introducción al análisis y visualización de datos con Python (Diplomado)",
+    "level": "pregrado",
+    "url": "https://sites.google.com/site/diplomadomlunal2018/home/contenido/modulo-1?authuser=1",
+    "current": false,
+    "sort_order": 1048
+  },
+  {
+    "id": "curso:2018-1:seminario-de-profundizacion-i-maestria-en-convenio-con-unill",
+    "term": "2018-1",
+    "title": "Seminario de Profundización I (Maestría en Convenio con Unillanos)",
+    "level": "maestria",
+    "url": "https://sites.google.com/a/unal.edu.co/seminario-de-profundizacion-2018-i-convenio-unillanos/",
+    "current": false,
+    "sort_order": 1049
+  },
+  {
+    "id": "curso:2018-1:temas-avanzados-en-lenguajes-de-programacion",
+    "term": "2018-1",
+    "title": "Temas Avanzados en Lenguajes de Programación",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/temasavanzadoslenguajes2018-1/?pli=1&authuser=1",
+    "current": false,
+    "sort_order": 1050
+  },
+  {
+    "id": "curso:2018-1:lenguajes-de-programacion",
+    "term": "2018-1",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2018-1/?pli=1&authuser=1",
+    "current": false,
+    "sort_order": 1051
+  },
+  {
+    "id": "curso:2018-1:introduccion-al-analisis-y-visualizacion-de-datos-con-python",
+    "term": "2018-1",
+    "title": "Introducción al análisis y visualización de datos con Python (Diplomado)",
+    "level": "pregrado",
+    "url": "https://sites.google.com/site/diplomadomlunal2018/home/contenido/modulo-1?authuser=1",
+    "current": false,
+    "sort_order": 1052
+  },
+  {
+    "id": "curso:2017-2:seminario-de-investigacion-i-doctorado",
+    "term": "2017-2",
+    "title": "Seminario de Investigación I (Doctorado)",
+    "level": "maestria",
+    "url": "https://campus.virtual.unal.edu.co/course/view.php?id=19297",
+    "current": false,
+    "sort_order": 1053
+  },
+  {
+    "id": "curso:2017-2:seminario-de-investigacion-ii-doctorado",
+    "term": "2017-2",
+    "title": "Seminario de Investigación II (Doctorado)",
+    "level": "maestria",
+    "url": "https://campus.virtual.unal.edu.co/course/view.php?id=19298",
+    "current": false,
+    "sort_order": 1054
+  },
+  {
+    "id": "curso:2017-2:lenguajes-de-programacion",
+    "term": "2017-2",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2017-2/?pli=1&authuser=1",
+    "current": false,
+    "sort_order": 1055
+  },
+  {
+    "id": "curso:2017-1:seminario-de-investigacion-i-doctorado",
+    "term": "2017-1",
+    "title": "Seminario de Investigación I (Doctorado)",
+    "level": "maestria",
+    "url": "http://campus.virtual.unal.edu.co/course/view.php?id=18335",
+    "current": false,
+    "sort_order": 1056
+  },
+  {
+    "id": "curso:2017-1:temas-avanzados-de-lenguajes-de-programacion",
+    "term": "2017-1",
+    "title": "Temas avanzados de Lenguajes de Programación",
+    "level": "maestria",
+    "url": "https://sites.google.com/unal.edu.co/temasavanzadoslenguajes2017-1/home?authuser=1",
+    "current": false,
+    "sort_order": 1057
+  },
+  {
+    "id": "curso:2017-1:lenguajes-de-programacion",
+    "term": "2017-1",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/unal.edu.co/lenguajesdeprogramacion-2017-1/home?authuser=1",
+    "current": false,
+    "sort_order": 1058
+  },
+  {
+    "id": "curso:2016-2:seminario-de-investigacion-ii-doctorado",
+    "term": "2016-2",
+    "title": "Seminario de Investigación II (Doctorado)",
+    "level": "maestria",
+    "url": "https://sites.google.com/a/unal.edu.co/seminario-de-investigacion-ii-2016-2/",
+    "current": false,
+    "sort_order": 1059
+  },
+  {
+    "id": "curso:2016-2:lenguajes-de-programacion",
+    "term": "2016-2",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/lenguajes-de-programacion-2016-2/",
+    "current": false,
+    "sort_order": 1060
+  },
+  {
+    "id": "curso:2016-1:temas-avanzados-de-lenguajes-de-programacion",
+    "term": "2016-1",
+    "title": "Temas avanzados de Lenguajes de Programación",
+    "level": "maestria",
+    "url": "https://sites.google.com/a/unal.edu.co/temas-avanzados-de-lenguajes-de-programacion-2016-1/",
+    "current": false,
+    "sort_order": 1061
+  },
+  {
+    "id": "curso:2016-1:lenguajes-de-programacion",
+    "term": "2016-1",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/lenguajes-de-programacion-2016-1/",
+    "current": false,
+    "sort_order": 1062
+  },
+  {
+    "id": "curso:2016-1:estructuras-de-datos",
+    "term": "2016-1",
+    "title": "Estructuras de Datos",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/estructuras-de-datos-2016-1/",
+    "current": false,
+    "sort_order": 1063
+  },
+  {
+    "id": "curso:2015-2:lenguajes-de-programacion",
+    "term": "2015-2",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/lenguajes-de-programacion-2015-2/",
+    "current": false,
+    "sort_order": 1064
+  },
+  {
+    "id": "curso:2015-2:estructuras-de-datos",
+    "term": "2015-2",
+    "title": "Estructuras de Datos",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/estructuras-de-datos-2015-2/",
+    "current": false,
+    "sort_order": 1065
+  },
+  {
+    "id": "curso:2015-1:lenguajes-de-programacion",
+    "term": "2015-1",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/lenguajes-de-programacion-2015-1/",
+    "current": false,
+    "sort_order": 1066
+  },
+  {
+    "id": "curso:2015-1:estructuras-de-datos",
+    "term": "2015-1",
+    "title": "Estructuras de Datos",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/estructuras-de-datos-2015-1/",
+    "current": false,
+    "sort_order": 1067
+  },
+  {
+    "id": "curso:2014-2:lenguajes-de-programacion",
+    "term": "2014-2",
+    "title": "Lenguajes de Programación",
+    "level": "pregrado",
+    "url": "https://sites.google.com/a/unal.edu.co/lenguajes-de-programacion/",
+    "current": false,
+    "sort_order": 1068
+  },
+  {
+    "id": "curso:2014-2:programacion-de-computadores",
+    "term": "2014-2",
+    "title": "Programación de Computadores",
+    "level": "pregrado",
+    "url": "https://drive.google.com/a/unal.edu.co/folderview?id=0B7IRdmOoUVf5fnN0ZFZDNjY2YVk5TlpXbmRwUWhiMldGcHMwT05hTDlzbk5TdGRhMngyNVU&usp=sharing",
+    "current": false,
+    "sort_order": 1069
+  },
+  {
+    "id": "curso:mooc:python",
+    "term": "",
+    "title": "Introducción a la programación con Python",
+    "level": "mooc",
+    "url": "https://mlds.unal.edu.co/courses/course-v1:MLDS+mlds0a+2023/about",
+    "current": false,
+    "sort_order": 2000
+  }
+]
