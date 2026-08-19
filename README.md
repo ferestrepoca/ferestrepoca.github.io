@@ -14,10 +14,12 @@ Requisitos: Node ≥ 24 (ver `.nvmrc`).
 
 ```bash
 npm ci --prefix web
-npm run build     # db:build → data:export → astro build
+npm run data:validate
+npm test
+npm run build     # validación JSON → astro build
 npm run dev
 npm run harvest:publications
 npm run harvest:theses
 ```
 
-Datos canónicos: `data/sql/` → detalle en [`docs/capa-datos-astro.md`](docs/capa-datos-astro.md).
+Datos canónicos: `web/src/data/*.json` → detalle en [`docs/capa-datos-astro.md`](docs/capa-datos-astro.md).

@@ -4,7 +4,7 @@
     "name_display": "Alfonso Hoyos, Jean Pierre",
     "name_sort": "Alfonso Hoyos, Jean Pierre",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/60127",
@@ -26,7 +26,7 @@
     "name_display": "Aponte Moreno, John Alexander",
     "name_sort": "Aponte Moreno, John Alexander",
     "degree_highest": "doctorado",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "doctorado",
     "thesis": {
       "id": "tesis:unal/85008",
@@ -48,7 +48,7 @@
     "name_display": "Baquero Pico, Cristian Adolfo",
     "name_sort": "Baquero Pico, Cristian Adolfo",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/89211",
@@ -70,7 +70,7 @@
     "name_display": "Baquero Vargas, Juan Felipe",
     "name_sort": "Baquero Vargas, Juan Felipe",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/76556",
@@ -92,7 +92,7 @@
     "name_display": "Cañas Palomino, Luis Alfonso",
     "name_sort": "Cañas Palomino, Luis Alfonso",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/85634",
@@ -114,7 +114,7 @@
     "name_display": "Castellanos Morales, Hugo Armando",
     "name_sort": "Castellanos Morales, Hugo Armando",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/60068",
@@ -136,7 +136,7 @@
     "name_display": "Chaparro Amaya, Edna Johanna",
     "name_sort": "Chaparro Amaya, Edna Johanna",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/83049",
@@ -158,7 +158,7 @@
     "name_display": "Correa Lombana, Juan Manuel",
     "name_sort": "Correa Lombana, Juan Manuel",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/89150",
@@ -180,7 +180,7 @@
     "name_display": "Corso Pinzón, Andrés Francisco José",
     "name_sort": "Corso Pinzón, Andrés Francisco José",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/83931",
@@ -202,7 +202,7 @@
     "name_display": "Cruz Camacho, Elkin Alejandro",
     "name_sort": "Cruz Camacho, Elkin Alejandro",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/76335",
@@ -224,7 +224,7 @@
     "name_display": "Cruz Chú, Mariana Beatriz",
     "name_sort": "Cruz Chú, Mariana Beatriz",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/89979",
@@ -246,7 +246,7 @@
     "name_display": "Cuervo Cely, Karen Daniela",
     "name_sort": "Cuervo Cely, Karen Daniela",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/79756",
@@ -268,7 +268,7 @@
     "name_display": "Del Pozo Falconí, Iván Mauricio",
     "name_sort": "Del Pozo Falconí, Iván Mauricio",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/64771",
@@ -290,7 +290,7 @@
     "name_display": "Echavarría Flórez, Ingrid Sofía",
     "name_sort": "Echavarría Flórez, Ingrid Sofía",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/77441",
@@ -312,7 +312,7 @@
     "name_display": "Garavito Mendez, Oscar Javier",
     "name_sort": "Garavito Mendez, Oscar Javier",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/76553",
@@ -334,7 +334,7 @@
     "name_display": "Lozano Rojas, Hernan Dario",
     "name_sort": "Lozano Rojas, Hernan Dario",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/82923",
@@ -356,7 +356,7 @@
     "name_display": "Mendez Lara, Jhon Alexis",
     "name_sort": "Mendez Lara, Jhon Alexis",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/80862",
@@ -378,7 +378,7 @@
     "name_display": "Olaya Castro, Hendrik Eugenio",
     "name_sort": "Olaya Castro, Hendrik Eugenio",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/89978",
@@ -400,7 +400,7 @@
     "name_display": "Pabón Correa, David Alejandro",
     "name_sort": "Pabón Correa, David Alejandro",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/89227",
@@ -422,7 +422,7 @@
     "name_display": "Peña Vargas, Manuel Alejandro",
     "name_sort": "Peña Vargas, Manuel Alejandro",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/86898",
@@ -444,7 +444,7 @@
     "name_display": "Ramírez Espejo, Roger Steven",
     "name_sort": "Ramírez Espejo, Roger Steven",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/84828",
@@ -466,7 +466,7 @@
     "name_display": "Rivera Cárdenas, David Leonardo",
     "name_sort": "Rivera Cárdenas, David Leonardo",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/88357",
@@ -488,7 +488,7 @@
     "name_display": "Rodriguez Barreto, Julian Mauricio",
     "name_sort": "Rodriguez Barreto, Julian Mauricio",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/88492",
@@ -510,7 +510,7 @@
     "name_display": "Rodriguez Pinto, Father Alexander",
     "name_sort": "Rodriguez Pinto, Father Alexander",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/86557",
@@ -532,7 +532,7 @@
     "name_display": "Rosales Castro, Lina Fernanda",
     "name_sort": "Rosales Castro, Lina Fernanda",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/76549",
@@ -554,7 +554,7 @@
     "name_display": "Torres Jiménez, Stephanie",
     "name_sort": "Torres Jiménez, Stephanie",
     "degree_highest": "maestria",
-    "n_tesis": "1",
+    "n_tesis": 1,
     "role_degree": "maestria",
     "thesis": {
       "id": "tesis:unal/79877",

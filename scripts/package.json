@@ -2,10 +2,10 @@
   "name": "ferestrepoca-scripts",
   "private": true,
   "type": "module",
-  "description": "Harvest ORCID / RI UNAL → SQLite person-scoped",
+  "description": "Harvest ORCID / RI UNAL → JSON canónico",
   "scripts": {
     "harvest:theses": "node harvest-theses.mjs",
     "harvest:publications": "node harvest-publications.mjs",
-    "export:web": "node export-web-data.mjs"
+    "validate": "node validate-data.mjs"
   }
 }

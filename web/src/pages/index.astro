@@ -3,12 +3,19 @@ import Layout from "../layouts/Layout.astro";
 import Bilingual from "../components/Bilingual.astro";
 import { ui, levelKey } from "../i18n/ui";
 import person from "../data/person.json";
-import meta from "../data/meta.json";
 import courses from "../data/courses.json";
 import projects from "../data/projects.json";
+import publications from "../data/publications.json";
+import theses from "../data/theses.json";
+import students from "../data/students.json";
 
 const currentCourses = courses.filter((c) => c.current);
 const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
+const harvestedDates = [...publications, ...theses]
+  .map((item) => item.harvested_at)
+  .filter(Boolean)
+  .sort();
+const dataUpdatedAt = harvestedDates.at(-1) || "";
 ---
 <Layout
   title={`${person.name_display} — Inicio`}
@@ -103,14 +110,14 @@ const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
 
   <p class="meta">
     <span data-lang="es">
-      {ui.es.meta_exported} {meta.exported_at}: {meta.counts.publications} {ui.es.meta_pubs} ·{" "}
-      {meta.counts.theses} {ui.es.meta_theses} · {meta.counts.students} {ui.es.meta_students} ·{" "}
-      {meta.counts.courses} {ui.es.meta_courses}
+      {ui.es.meta_exported} {dataUpdatedAt}: {publications.length} {ui.es.meta_pubs} ·{" "}
+      {theses.length} {ui.es.meta_theses} · {students.length} {ui.es.meta_students} ·{" "}
+      {courses.length} {ui.es.meta_courses}
     </span>
     <span data-lang="en">
-      {ui.en.meta_exported} {meta.exported_at}: {meta.counts.publications} {ui.en.meta_pubs} ·{" "}
-      {meta.counts.theses} {ui.en.meta_theses} · {meta.counts.students} {ui.en.meta_students} ·{" "}
-      {meta.counts.courses} {ui.en.meta_courses}
+      {ui.en.meta_exported} {dataUpdatedAt}: {publications.length} {ui.en.meta_pubs} ·{" "}
+      {theses.length} {ui.en.meta_theses} · {students.length} {ui.en.meta_students} ·{" "}
+      {courses.length} {ui.en.meta_courses}
     </span>
   </p>
 </Layout>

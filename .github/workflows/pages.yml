@@ -31,6 +31,9 @@ jobs:
       - name: Install web dependencies
         run: npm ci --prefix web
 
+      - name: Test data pipeline
+        run: npm test
+
       - name: Build site
         run: npm run build
 

@@ -24,10 +24,6 @@ web/.astro/
 npm-debug.log*
 yarn-error.log*
 
-# SQLite local artifact (fuente = data/sql/)
-data/person.sqlite
-data/person.sqlite-*
-
 # Temp
 *.tmp
 *.bak

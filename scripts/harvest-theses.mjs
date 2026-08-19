@@ -1,98 +1,52 @@
 #!/usr/bin/env node
-/**
- * Cosecha de tesis (RI UNAL) — modelo slim, sitio personal.
- * Solo tesis donde ferestrepoca es advisor; estudiante embebido en theses + students.
- */
+/** RI UNAL → web/src/data/theses.json + students.json. */
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { pathToFileURL } from "node:url";
 import { mkdir, writeFile } from "node:fs/promises";
 import {
   classifyDegree,
   isEngineeringProgram,
   estudianteIdFromName,
-  nameKey,
   splitAuthors,
   sleep,
   normText,
 } from "./lib/normalize.mjs";
 import { discoverSearch, fetchOwningCollectionName, summarizeItem } from "./lib/ri.mjs";
-import {
-  ensureDb,
-  readTable,
-  replaceTable,
-  writeSeeds,
-  PIPELINE_TEST_DIR,
-  PERSON_DOCENTE_ID,
-} from "./lib/db.mjs";
+import { getDataDir, readJson, ROOT, writeJsonBatch } from "./lib/json-store.mjs";
+import { validatePerson, validateStudents, validateTheses } from "./lib/data-validation.mjs";
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-
-const TESIS_HEADERS = [
-  "id",
-  "handle",
-  "title",
-  "year",
-  "degree",
-  "degree_name_ri",
-  "item_url",
-  "student_id",
-  "student_name",
-  "abstract_es",
-  "source",
-  "harvested_at",
-  "visible",
-];
-
-const STUDENT_HEADERS = [
-  "id",
-  "name_display",
-  "name_sort",
-  "degree_highest",
-  "n_tesis",
-  "thesis_id",
-  "thesis_title",
-  "thesis_year",
-  "thesis_degree",
-  "thesis_url",
-];
+const PERSON_DOCENTE_ID = "docente:ferestrepoca";
+const PIPELINE_TEST_DIR = path.join(ROOT, "data", "pipeline_test");
 
 function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
 function parseArgs(argv) {
-  const args = {
-    dryRun: false,
-    testHoldout: null,
-    maxPages: 30,
-    queryDelayMs: 120,
-  };
+  const args = { dryRun: false, testHoldout: null, maxPages: 30, queryDelayMs: 120, dataDir: undefined };
   for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
-    if (a === "--dry-run") args.dryRun = true;
-    else if (a === "--test-holdout") args.testHoldout = argv[++i];
-    else if (a === "--max-pages") args.maxPages = Number(argv[++i]);
-    else if (a === "--help" || a === "-h") args.help = true;
+    const arg = argv[i];
+    if (arg === "--dry-run") args.dryRun = true;
+    else if (arg === "--test-holdout") args.testHoldout = argv[++i];
+    else if (arg === "--max-pages") args.maxPages = Number(argv[++i]);
+    else if (arg === "--data-dir") args.dataDir = argv[++i];
+    else if (arg === "--help" || arg === "-h") args.help = true;
   }
   return args;
 }
 
-function parseAliases(person) {
-  try {
-    const list = JSON.parse(person.aliases_json || "[]");
-    return Array.isArray(list) ? list.map((a) => String(a).trim()).filter(Boolean) : [];
-  } catch {
-    return [];
-  }
+function aliasesFromPerson(person) {
+  return Array.isArray(person.aliases)
+    ? person.aliases.map((alias) => String(alias).trim()).filter(Boolean)
+    : [];
 }
 
-function matchPersonAdvisor(advisorNames, aliases) {
-  const norms = aliases.map((a) => normText(a.replace(/\(thesis advisor\)/gi, "")));
+export function matchPersonAdvisor(advisorNames, aliases) {
+  const normalizedAliases = aliases.map((alias) => normText(alias.replace(/\(thesis advisor\)/gi, "")));
   for (const raw of advisorNames) {
-    const n = normText(raw.replace(/\(thesis advisor\)/gi, ""));
-    for (const an of norms) {
-      if (!an) continue;
-      if (n === an || n.includes(an) || an.includes(n)) {
+    const normalized = normText(raw.replace(/\(thesis advisor\)/gi, ""));
+    for (const alias of normalizedAliases) {
+      if (alias && (normalized === alias || normalized.includes(alias) || alias.includes(normalized))) {
         return { ok: true, name_form_raw: raw };
       }
     }
@@ -100,7 +54,7 @@ function matchPersonAdvisor(advisorNames, aliases) {
   return { ok: false };
 }
 
-function shouldRegister({ degree, engineering, isAdvisor }) {
+export function shouldRegister({ degree, engineering, isAdvisor }) {
   if (!degree) return { ok: false, reason: "not_posgrado" };
   if (engineering === false) return { ok: false, reason: "no_ingenieria" };
   if (engineering == null) return { ok: false, reason: "programa_desconocido" };
@@ -120,252 +74,215 @@ async function harvestFromRi({ aliases, maxPages, delayMs }) {
   }
 
   console.log(`Consultando RI: ${queries.length} aliases de ${PERSON_DOCENTE_ID}…`);
-  let qi = 0;
-  for (const query of queries) {
-    qi++;
-    process.stdout.write(`  [${qi}/${queries.length}] «${query}» `);
+  for (let index = 0; index < queries.length; index++) {
+    const query = queries[index];
+    process.stdout.write(`  [${index + 1}/${queries.length}] «${query}» `);
     try {
       const items = await discoverSearch(`"${query}"`, { maxPages, delayMs });
       let added = 0;
       for (const item of items) {
-        const sum = summarizeItem(item);
-        if (!sum.handle) continue;
-        const hit = matchPersonAdvisor(sum.advisors, aliases);
+        const summary = summarizeItem(item);
+        if (!summary.handle) continue;
+        const hit = matchPersonAdvisor(summary.advisors, aliases);
         if (!hit.ok) continue;
-        if (!byHandle.has(sum.handle)) {
-          byHandle.set(sum.handle, { ...sum, matchedAdvisor: hit.name_form_raw });
+        if (!byHandle.has(summary.handle)) {
+          byHandle.set(summary.handle, { ...summary, matchedAdvisor: hit.name_form_raw });
           added++;
         }
       }
       console.log(`→ ${items.length} hits, +${added} nuevos handles`);
-    } catch (e) {
-      console.log(`ERROR: ${e.message}`);
+    } catch (error) {
+      console.log(`ERROR: ${error.message}`);
     }
     await sleep(delayMs);
   }
   return [...byHandle.values()];
 }
 
-async function enrichProgram(sum) {
-  let degreeName = sum.degreeName;
-  if (!degreeName) degreeName = await fetchOwningCollectionName(sum.uuid);
-  return degreeName || "";
+async function enrichProgram(summary) {
+  return summary.degreeName || (await fetchOwningCollectionName(summary.uuid)) || "";
 }
 
-function upsertStudent(students, { name, degree, year, thesis }) {
-  const id = estudianteIdFromName(name);
-  let e = students.find((x) => x.id === id);
-  const rank = degree === "doctorado" ? 3 : 2;
-  if (!e) {
-    e = {
-      id,
-      name_display: name,
-      name_sort: name,
-      degree_highest: degree,
-      n_tesis: "1",
-      thesis_id: thesis.id,
-      thesis_title: thesis.title,
-      thesis_year: thesis.year,
-      thesis_degree: degree,
-      thesis_url: thesis.item_url,
-      _rank: rank,
+export function rebuildStudentsFromTheses(theses) {
+  const students = new Map();
+  const sorted = theses
+    .filter((thesis) => thesis.visible !== false)
+    .sort((a, b) => String(a.year).localeCompare(String(b.year)) || a.id.localeCompare(b.id));
+
+  for (const thesis of sorted) {
+    if (!thesis.student_id || !thesis.student_name) continue;
+    const rank = thesis.degree === "doctorado" ? 3 : 2;
+    const current = students.get(thesis.student_id);
+    const thesisView = {
+      id: thesis.id,
+      title: thesis.title,
+      year: thesis.year,
+      degree: thesis.degree,
+      url: thesis.item_url,
     };
-    students.push(e);
-    return { estudiante: e, created: true };
-  }
-  e.n_tesis = String(Number(e.n_tesis || 0) + 1);
-  if (rank >= (e._rank || 0) || String(year) >= String(e.thesis_year || "")) {
-    e.degree_highest = degree;
-    e._rank = Math.max(e._rank || 0, rank);
-    e.thesis_id = thesis.id;
-    e.thesis_title = thesis.title;
-    e.thesis_year = thesis.year;
-    e.thesis_degree = degree;
-    e.thesis_url = thesis.item_url;
-  }
-  return { estudiante: e, created: false };
-}
 
-function rebuildStudentsFromTheses(theses) {
-  const students = [];
-  const sorted = [...theses].sort((a, b) => String(a.year).localeCompare(String(b.year)));
-  for (const t of sorted) {
-    if (!t.student_id && !t.student_name) continue;
-    const name = t.student_name || t.student_id;
-    const id = t.student_id || estudianteIdFromName(name);
-    let e = students.find((x) => x.id === id);
-    if (!e) {
-      students.push({
-        id,
-        name_display: name,
-        name_sort: nameKey(name) ? name : name,
-        degree_highest: t.degree,
-        n_tesis: "1",
-        thesis_id: t.id,
-        thesis_title: t.title,
-        thesis_year: t.year,
-        thesis_degree: t.degree,
-        thesis_url: t.item_url,
+    if (!current) {
+      students.set(thesis.student_id, {
+        id: thesis.student_id,
+        name_display: thesis.student_name,
+        name_sort: thesis.student_name,
+        degree_highest: thesis.degree,
+        n_tesis: 1,
+        role_degree: thesis.degree,
+        thesis: thesisView,
+        links: thesis.item_url ? [{ label: "Tesis", label_en: "Thesis", url: thesis.item_url }] : [],
+        _rank: rank,
       });
-    } else {
-      e.n_tesis = String(Number(e.n_tesis || 0) + 1);
-      if (String(t.year) >= String(e.thesis_year || "")) {
-        e.degree_highest = t.degree;
-        e.thesis_id = t.id;
-        e.thesis_title = t.title;
-        e.thesis_year = t.year;
-        e.thesis_degree = t.degree;
-        e.thesis_url = t.item_url;
-        e.name_display = name;
-      }
+      continue;
+    }
+
+    current.n_tesis++;
+    current.name_display = thesis.student_name;
+    if (rank > current._rank) {
+      current._rank = rank;
+      current.degree_highest = thesis.degree;
+      current.role_degree = thesis.degree;
+    }
+    if (String(thesis.year) >= String(current.thesis?.year || "")) {
+      current.thesis = thesisView;
+      current.links = thesis.item_url ? [{ label: "Tesis", label_en: "Thesis", url: thesis.item_url }] : [];
     }
   }
-  return students.sort((a, b) => a.name_sort.localeCompare(b.name_sort, "es"));
+
+  return [...students.values()]
+    .map(({ _rank, ...student }) => student)
+    .sort((a, b) => a.name_sort.localeCompare(b.name_sort, "es"));
 }
 
-async function persist(theses, students, { dryRun }) {
+async function persist(theses, students, { dryRun, dataDir }) {
+  validateTheses(theses);
+  validateStudents(students, theses);
   if (dryRun) {
-    console.log("Dry-run: no se escribe SQLite/seed.");
-    return;
+    console.log("Dry-run: no se escriben archivos JSON.");
+    return [];
   }
-  const cleanStudents = students.map((s) => {
-    const o = { ...s };
-    delete o._rank;
-    return o;
-  });
-  const db = await ensureDb();
-  replaceTable(db, "theses", theses, TESIS_HEADERS);
-  replaceTable(db, "students", cleanStudents, STUDENT_HEADERS);
-  await writeSeeds(db, ["theses", "students"]);
-  db.close();
-  console.log("SQLite + seed SQL actualizados.");
+  const written = await writeJsonBatch(
+    [["theses.json", theses], ["students.json", students]],
+    { dataDir },
+  );
+  console.log(written.length ? `JSON actualizados: ${written.join(", ")}` : "JSON sin cambios.");
+  return written;
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  if (args.help) {
-    console.log(`Uso:
-  node scripts/harvest-theses.mjs [--dry-run] [--max-pages N]
+export async function harvestTheses(options = {}) {
+  const args = {
+    dryRun: false,
+    testHoldout: null,
+    maxPages: 30,
+    queryDelayMs: 120,
+    getHarvested: harvestFromRi,
+    getProgram: enrichProgram,
+    itemDelay: sleep,
+    ...options,
+  };
+  const person = await readJson("person.json", { dataDir: args.dataDir });
+  validatePerson(person);
+  if (person.id !== PERSON_DOCENTE_ID) throw new Error(`Unexpected person.id: ${person.id}`);
+  let theses = await readJson("theses.json", { dataDir: args.dataDir });
+  validateTheses(theses);
 
-Flujo:
-  1) Lee aliases_json de person
-  2) Consulta RI UNAL
-  3) Registra posgrado + Ingeniería + advisor = ferestrepoca
-  4) Embebe estudiante en theses y regenera students
-`);
-    return;
-  }
-
-  const db = await ensureDb();
-  const person = readTable(db, "person").find((p) => p.id === PERSON_DOCENTE_ID);
-  let theses = readTable(db, "theses");
-  db.close();
-
-  if (!person) {
-    console.error("person row missing");
-    process.exit(1);
-  }
-
-  const aliases = parseAliases(person);
-  if (!aliases.length) {
-    console.error("person.aliases_json vacío");
-    process.exit(1);
-  }
+  const aliases = aliasesFromPerson(person);
+  if (!aliases.length) throw new Error("person.aliases vacío");
 
   let holdout = null;
+  const reportDir = args.dataDir ? path.join(getDataDir(args.dataDir), ".pipeline_test") : PIPELINE_TEST_DIR;
   if (args.testHoldout) {
     const handle = args.testHoldout.replace(/^tesis:/, "");
-    const tid = `tesis:${handle}`;
-    holdout = theses.find((t) => t.id === tid || t.handle === handle);
+    const id = `tesis:${handle}`;
+    holdout = theses.find((thesis) => thesis.id === id || thesis.handle === handle);
     if (!holdout) throw new Error(`Holdout no encontrado: ${args.testHoldout}`);
-    theses = theses.filter((t) => t.id !== holdout.id);
-    await mkdir(PIPELINE_TEST_DIR, { recursive: true });
-    await writeFile(
-      path.join(PIPELINE_TEST_DIR, "holdout.json"),
-      JSON.stringify(holdout, null, 2),
-      "utf8",
-    );
+    theses = theses.filter((thesis) => thesis.id !== holdout.id);
+    await mkdir(reportDir, { recursive: true });
+    await writeFile(path.join(reportDir, "holdout.json"), `${JSON.stringify(holdout, null, 2)}\n`, "utf8");
     console.log(`Holdout apartado: ${holdout.id}`);
   }
 
-  const existing = new Set(theses.map((t) => t.handle));
-  const harvested = await harvestFromRi({
-    aliases,
-    maxPages: args.maxPages,
-    delayMs: args.queryDelayMs,
-  });
-
+  const existing = new Set(theses.map((thesis) => thesis.handle));
+  const harvested = await args.getHarvested({ aliases, maxPages: args.maxPages, delayMs: args.queryDelayMs });
   console.log(`Handles únicos con match advisor: ${harvested.length}`);
   const stats = { examined: 0, new: 0, skipped: {}, added: [] };
 
-  for (const sum of harvested) {
+  for (const summary of harvested) {
     stats.examined++;
-    if (existing.has(sum.handle)) continue;
+    if (existing.has(summary.handle)) continue;
 
-    const hit = matchPersonAdvisor(sum.advisors, aliases);
-    const degree = classifyDegree(sum.dcTypes);
-    const degreeName = await enrichProgram(sum);
-    const engineering = isEngineeringProgram(degreeName);
-    const gate = shouldRegister({ degree, engineering, isAdvisor: hit.ok });
-
+    const hit = matchPersonAdvisor(summary.advisors, aliases);
+    const degree = classifyDegree(summary.dcTypes);
+    const degreeName = await args.getProgram(summary);
+    const gate = shouldRegister({
+      degree,
+      engineering: isEngineeringProgram(degreeName),
+      isAdvisor: hit.ok,
+    });
     if (!gate.ok) {
       stats.skipped[gate.reason] = (stats.skipped[gate.reason] || 0) + 1;
       continue;
     }
 
-    const authors = sum.authorsList.length ? sum.authorsList : splitAuthors(sum.authors);
-    const studentName = authors[0] || sum.authors || "";
+    const authors = summary.authorsList.length ? summary.authorsList : splitAuthors(summary.authors);
+    const studentName = authors[0] || summary.authors || "";
     const studentId = studentName ? estudianteIdFromName(studentName) : "";
-
-    const row = {
-      id: `tesis:${sum.handle}`,
-      handle: sum.handle,
-      title: sum.title,
-      year: sum.year,
+    const thesis = {
+      id: `tesis:${summary.handle}`,
+      handle: summary.handle,
+      title: summary.title,
+      year: summary.year,
       degree,
       degree_name_ri: degreeName,
-      item_url: sum.itemUrl,
+      item_url: summary.itemUrl,
       student_id: studentId,
       student_name: studentName,
-      abstract_es: sum.abstractEs || "",
+      advisor_ids: [PERSON_DOCENTE_ID],
+      abstract_es: summary.abstractEs || "",
       source: "repositorio_unal",
       harvested_at: today(),
-      visible: "yes",
+      visible: true,
     };
-    theses.push(row);
-    existing.add(sum.handle);
+    theses.push(thesis);
+    existing.add(summary.handle);
     stats.new++;
-    stats.added.push({ handle: sum.handle, title: sum.title });
-    console.log(`+ ${sum.handle} · ${studentName} · ${sum.title.slice(0, 50)}`);
-    await sleep(80);
+    stats.added.push({ handle: summary.handle, title: summary.title });
+    console.log(`+ ${summary.handle} · ${studentName} · ${summary.title.slice(0, 50)}`);
+    await args.itemDelay(80);
   }
 
+  theses.sort((a, b) => String(b.year).localeCompare(String(a.year)) || a.title.localeCompare(b.title, "es"));
   const students = rebuildStudentsFromTheses(theses);
   console.log("\nResumen:", JSON.stringify({ examined: stats.examined, new: stats.new, skipped: stats.skipped, students: students.length }, null, 2));
-
-  await persist(theses, students, { dryRun: args.dryRun });
+  const written = await persist(theses, students, args);
 
   if (holdout) {
-    const got = theses.find((t) => t.id === holdout.id);
+    const got = theses.find((thesis) => thesis.id === holdout.id);
     const report = {
-      ok: !!got,
+      ok: Boolean(got?.student_id || got?.student_name),
       checks: [
-        { name: "tesis_recreada", pass: !!got },
-        { name: "student_nonempty", pass: !!(got?.student_id || got?.student_name) },
+        { name: "tesis_recreada", pass: Boolean(got) },
+        { name: "student_nonempty", pass: Boolean(got?.student_id || got?.student_name) },
       ],
     };
-    report.ok = report.checks.every((c) => c.pass);
-    await writeFile(
-      path.join(PIPELINE_TEST_DIR, "compare_report.json"),
-      JSON.stringify(report, null, 2),
-      "utf8",
-    );
+    report.ok = report.checks.every((check) => check.pass);
+    await mkdir(reportDir, { recursive: true });
+    await writeFile(path.join(reportDir, "compare_report.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
     console.log(report.ok ? "\nHoldout OK" : "\nHoldout FALLÓ");
-    process.exitCode = report.ok ? 0 : 1;
+    if (!report.ok) process.exitCode = 1;
   }
+  return { theses, students, stats, written };
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+const isDirectRun = Boolean(process.argv[1]) && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+if (isDirectRun) {
+  const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    console.log(`Uso:\n  node scripts/harvest-theses.mjs [--dry-run] [--max-pages N] [--data-dir DIR]`);
+  } else {
+    harvestTheses(args).catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
+  }
+}

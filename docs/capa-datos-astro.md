@@ -1,81 +1,66 @@
-# Capa de datos Astro (sitio personal)
+# Capa de datos JSON
 
-**Fecha:** 2026-08-13 (schema slim + CV + i18n)  
-**Alcance:** datos canónicos en SQL → JSON → Astro. Público: GitHub Pages desde `web/dist` (Actions).
-
-## Modelo slim
-
-```text
-person                   → ficha + afiliación + PLaS + áreas/urls (+ *_en)
-education / postdocs / languages / IP  → CV (+ *_en)
-publications             → obras ORCID (+ DOI HTML-only)
-theses / students        → RI UNAL
-courses                  → docencia histórica + actuales
-projects                 → links_json + detail_json / detail_json_en
-```
-
-## i18n (sin rutas `/en/`)
-
-- Mismas URLs; HTML incluye ES+EN (`data-lang` / componente `Bilingual`).
-- [`web/public/scripts/lang.js`](../web/public/scripts/lang.js): `localStorage.siteLang` → `navigator.languages` → default `es`.
-- Switcher ES|EN en el layout; override manual persiste.
-- UI: [`web/src/i18n/ui.ts`](../web/src/i18n/ui.ts). Prosa editorial: campos `*_en` en seeds.
+Los archivos de `web/src/data/` son la única fuente de datos del sitio. Astro los importa directamente durante el build; no existe una base de datos ni una etapa de exportación.
 
 ## Flujo
 
 ```text
-data/sql/schema.sql + seed/*.sql
-        │  npm run db:build
-data/person.sqlite
-        │  npm run data:export
-web/src/data/*.json
-        │  astro build
-web/dist/
+ORCID + Crossref ── npm run harvest:publications ──→ publications.json
+RI UNAL ─────────── npm run harvest:theses ────────→ theses.json + students.json
+
+web/src/data/*.json ── npm run data:validate ──→ astro build ──→ web/dist/
 ```
 
-```bash
-npm run harvest:publications   # ORCID → publications.sql (conserva html+crossref)
-npm run harvest:theses         # RI UNAL → theses.sql + students.sql
-npm run build
-```
+Los harvesters leen primero el JSON versionado, fusionan la respuesta remota, validan el resultado completo y reemplazan los archivos mediante escrituras temporales. `--dry-run` ejecuta la cosecha sin escribir.
 
-## Seeds versionados
+## Archivos canónicos
 
-| Archivo | Contenido |
-|---------|-----------|
-| `person.sql` | ficha + `rank_en`, `areas_json_en`, … |
-| `education.sql` / `postdocs.sql` / `languages.sql` / `intellectual_property.sql` | CV bilingüe |
-| `publications.sql` | obras + `authors_display` |
-| `theses.sql` / `students.sql` | RI |
-| `courses.sql` | docencia (labels de nivel vía UI) |
-| `projects.sql` | `summary_en`, `detail_json_en`, `label_en` en links |
+| Archivo | Contenido | Mantenimiento |
+|---------|-----------|---------------|
+| `person.json` | Perfil, afiliación, aliases e identificadores | Manual |
+| `publications.json` | Publicaciones y metadatos ORCID/Crossref | Harvester + correcciones manuales |
+| `theses.json` | Tesis dirigidas y metadatos del RI | Harvester |
+| `students.json` | Proyección materializada de las tesis | Regenerado por `harvest:theses` |
+| `courses.json` | Docencia histórica y cursos actuales | Manual |
+| `projects.json` | Proyectos y enlaces bilingües | Manual |
+| `education.json`, `postdocs.json`, `languages.json`, `intellectual_property.json` | CV | Manual |
 
-## Checklist semestral
+Los años se conservan como texto. Booleanos como `current` y `visible`, contadores y `sort_order` usan tipos JSON nativos. `harvest_sources` y `orcid_put_codes` son arreglos.
 
-1. Actualizar `courses.sql` (`current`, URLs, término).
-2. `npm run harvest:publications`
-3. `npm run harvest:theses`
-4. Revisar proyectos / CV / campos `*_en` si aplica
-5. `npm run build`
+## Garantías
+
+`npm run data:validate` comprueba:
+
+- IDs, DOI, handles y slugs únicos;
+- tipos y campos obligatorios;
+- referencias entre estudiantes y tesis;
+- URLs utilizables, sin placeholders `#`;
+- metadatos necesarios para repetir una cosecha sin pérdida.
+
+Las publicaciones con fuente `html`/`manual` o notas manuales están protegidas: una cosecha ORCID puede enriquecerlas, pero no eliminarlas ni reemplazar su clasificación editorial.
 
 ## Comandos
 
 ```bash
-npm run db:build
-npm run data:export
+npm run data:validate
+npm test
 npm run harvest:publications
+npm run harvest:publications -- --dry-run
 npm run harvest:theses
+npm run harvest:theses -- --dry-run
 npm run dev
 npm run build
 npm run preview
 ```
 
-Node ≥ 24 (`node:sqlite`).
+## Checklist semestral
+
+1. Actualizar `web/src/data/courses.json`, incluyendo `current`, término y URL.
+2. Ejecutar ambos harvesters.
+3. Revisar el diff de los JSON.
+4. Ejecutar `npm test && npm run build`.
+5. Revisar proyectos y campos bilingües del CV.
 
 ## Deploy
 
-Workflow [`.github/workflows/pages.yml`](../.github/workflows/pages.yml): `npm run build` → artifact `web/dist` → GitHub Pages.
-
-## Fuera de alcance
-
-Rediseño visual, prefijo `/en/` para SEO, admin UI.
+GitHub Actions instala las dependencias web, ejecuta las pruebas y la validación, construye Astro y publica `web/dist` en GitHub Pages.
