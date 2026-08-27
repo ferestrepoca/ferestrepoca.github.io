@@ -9,11 +9,12 @@ import projects from "../data/projects.json";
     <span data-lang="es">{ui.es.projects}</span>
     <span data-lang="en">{ui.en.projects}</span>
   </h1>
+  <p class="lead"><Bilingual es={ui.es.projects_intro} en={ui.en.projects_intro} /></p>
   <ul class="card-list">
     {projects.map((p) => {
       const detailEn = p.detail_en?.length ? p.detail_en : p.detail;
       return (
-        <li>
+        <li id={p.slug}>
           <strong>
             <Bilingual es={p.title_full || p.title_short} en={p.title_full_en || p.title_short_en} />
           </strong>

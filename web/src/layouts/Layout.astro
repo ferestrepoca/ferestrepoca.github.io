@@ -16,13 +16,16 @@ const {
 
 const nav = [
   { href: "/", key: "nav_home" },
-  { href: "/publicaciones", key: "nav_pubs" },
-  { href: "/tesis", key: "nav_theses" },
-  { href: "/estudiantes", key: "nav_students" },
   { href: "/docencia", key: "nav_teaching" },
+  { href: "/lineas-investigacion", key: "nav_research_lines" },
+  { href: "/publicaciones", key: "nav_pubs" },
   { href: "/proyectos", key: "nav_projects" },
+  { href: "/tesis", key: "nav_theses" },
   { href: "/cv", key: "nav_cv" },
 ] as const;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => currentPath === href;
 ---
 <!doctype html>
 <html lang="es" class="lang-es" data-title-es={title} data-title-en={titleEn}>
@@ -41,7 +44,7 @@ const nav = [
       <div class="header-tools">
         <nav aria-label={ui.es.nav_aria}>
           {nav.map((item) => (
-            <a href={item.href}>
+            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
               <span data-lang="es">{ui.es[item.key]}</span>
               <span data-lang="en">{ui.en[item.key]}</span>
             </a>

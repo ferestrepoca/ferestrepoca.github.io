@@ -3,6 +3,18 @@ import Layout from "../layouts/Layout.astro";
 import Bilingual from "../components/Bilingual.astro";
 import { ui, typologyLabel } from "../i18n/ui";
 import publications from "../data/publications.json";
+
+const typologies = [...new Set(publications.map((publication) => publication.typology))]
+  .map((value) => ({
+    value,
+    label: typologyLabel[value] || {
+      es: publications.find((publication) => publication.typology === value)?.typology_label_es || value,
+      en: publications.find((publication) => publication.typology === value)?.typology_label_es || value,
+    },
+  }))
+  .sort((a, b) => a.label.es.localeCompare(b.label.es, "es"));
+const years = [...new Set(publications.map((publication) => publication.year))]
+  .sort((a, b) => Number(b) - Number(a));
 ---
 <Layout
   title="Publicaciones — Felipe Restrepo Calle"
@@ -12,18 +24,74 @@ import publications from "../data/publications.json";
     <span data-lang="es">{ui.es.publications}</span>
     <span data-lang="en">{ui.en.publications}</span>
   </h1>
+  <p class="lead"><Bilingual es={ui.es.publications_intro} en={ui.en.publications_intro} /></p>
   <p class="muted">
     {publications.length}{" "}
     <Bilingual es={ui.es.publications_blurb} en={ui.en.publications_blurb} />
   </p>
-  <ul class="card-list">
+
+  <form id="publication-filters" role="search">
+    <fieldset>
+      <legend><Bilingual es={ui.es.publication_filters} en={ui.en.publication_filters} /></legend>
+      <div class="filter-fields">
+        <label>
+          <Bilingual es={ui.es.publication_search} en={ui.en.publication_search} />
+          <input
+            type="search"
+            name="query"
+            autocomplete="off"
+            placeholder={ui.es.publication_search_placeholder}
+            data-placeholder-es={ui.es.publication_search_placeholder}
+            data-placeholder-en={ui.en.publication_search_placeholder}
+          />
+        </label>
+        <label>
+          <Bilingual es={ui.es.filter_typology} en={ui.en.filter_typology} />
+          <select name="typology">
+            <option value="" data-label-es={ui.es.all_typologies} data-label-en={ui.en.all_typologies}>
+              {ui.es.all_typologies}
+            </option>
+            {typologies.map(({ value, label }) => (
+              <option value={value} data-label-es={label.es} data-label-en={label.en}>{label.es}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <Bilingual es={ui.es.filter_year} en={ui.en.filter_year} />
+          <select name="year">
+            <option value="" data-label-es={ui.es.all_years} data-label-en={ui.en.all_years}>
+              {ui.es.all_years}
+            </option>
+            {years.map((year) => <option value={year}>{year}</option>)}
+          </select>
+        </label>
+      </div>
+      <button type="reset">
+        <Bilingual es={ui.es.clear_filters} en={ui.en.clear_filters} />
+      </button>
+    </fieldset>
+  </form>
+
+  <p id="publication-results" class="muted" role="status" aria-live="polite">
+    {publications.length} de {publications.length} publicaciones
+  </p>
+  <p id="publication-empty" hidden>
+    <Bilingual es={ui.es.no_publication_results} en={ui.en.no_publication_results} />
+  </p>
+
+  <ul class="card-list" id="publication-list">
     {publications.map((p) => {
       const typ = typologyLabel[p.typology] || {
         es: p.typology_label_es || p.typology,
         en: p.typology_label_es || p.typology,
       };
       return (
-        <li>
+        <li
+          class="publication-item"
+          data-search={[p.title, p.authors, p.venue_title, p.doi].filter(Boolean).join(" ")}
+          data-typology={p.typology}
+          data-year={p.year}
+        >
           <div class="meta">
             {p.year} · <Bilingual es={typ.es} en={typ.en} />
           </div>
@@ -38,4 +106,5 @@ import publications from "../data/publications.json";
       );
     })}
   </ul>
+  <script type="module" src="/scripts/publications-filter.js"></script>
 </Layout>

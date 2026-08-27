@@ -17,6 +17,7 @@ const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
     <span data-lang="es">{ui.es.curriculum}</span>
     <span data-lang="en">{ui.en.curriculum}</span>
   </h1>
+  <p class="lead"><Bilingual es={ui.es.curriculum_intro} en={ui.en.curriculum_intro} /></p>
   <p><Bilingual es={person.rank} en={person.rank_en} /></p>
   <p class="muted">
     <Bilingual es={person.department} en={person.department_en} /><br />

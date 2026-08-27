@@ -1,123 +1,154 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Bilingual from "../components/Bilingual.astro";
-import { ui, levelKey } from "../i18n/ui";
+import { ui, levelKey, typologyLabel } from "../i18n/ui";
 import person from "../data/person.json";
 import courses from "../data/courses.json";
 import projects from "../data/projects.json";
 import publications from "../data/publications.json";
-import theses from "../data/theses.json";
-import students from "../data/students.json";
 
-const currentCourses = courses.filter((c) => c.current);
+const currentCourses = courses.filter((course) => course.current);
 const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
-const harvestedDates = [...publications, ...theses]
-  .map((item) => item.harvested_at)
-  .filter(Boolean)
-  .sort();
-const dataUpdatedAt = harvestedDates.at(-1) || "";
+const recentPublications = publications.slice(0, 3);
 ---
 <Layout
-  title={`${person.name_display} — Inicio`}
-  titleEn={`${person.name_display} — Home`}
-  description="Sitio personal — Felipe Restrepo Calle"
-  descriptionEn="Personal website — Felipe Restrepo Calle"
+  title={`${person.name_display} — Docencia e investigación`}
+  titleEn={`${person.name_display} — Teaching and research`}
+  description="Docencia e investigación en ciencias de la computación — Felipe Restrepo Calle"
+  descriptionEn="Teaching and research in computer science — Felipe Restrepo Calle"
 >
-  <section class="person">
+  <section class="hero person" aria-labelledby="home-title">
     <img
       src={person.image_path}
       alt={`${ui.es.photo_alt} ${person.name_display}`}
-      width="140"
-      height="140"
+      width="220"
+      height="213"
     />
-    <div>
-      <h1>{person.name_display}</h1>
-      <p><Bilingual es={person.rank} en={person.rank_en} /></p>
+    <div class="hero-content">
+      <p class="eyebrow">
+        <Bilingual es={ui.es.hero_kicker} en={ui.en.hero_kicker} />
+      </p>
+      <h1 id="home-title">{person.name_display}</h1>
+      <p class="lead">
+        <Bilingual es={ui.es.hero_intro} en={ui.en.hero_intro} />
+      </p>
       <p class="muted">
-        <Bilingual es={person.department} en={person.department_en} /><br />
+        <Bilingual es={person.rank} en={person.rank_en} /> ·{" "}
         <Bilingual es={person.institution} en={person.institution_en} /><br />
-        {person.city}, <Bilingual es={person.country} en={person.country_en} /><br />
-        <Bilingual es={person.office} en={person.office_en} /><br />
-        {person.phone}<br />
-        {person.email}
+        <Bilingual es={person.department} en={person.department_en} /> · {person.city}
       </p>
-      {person.group_url && (
-        <p>
-          <Bilingual es={ui.es.group} en={ui.en.group} />:{" "}
-          <a href={person.group_url} target="_blank" rel="noopener">{person.group_name}</a>
-        </p>
-      )}
-      <p class="meta">
-        <Bilingual es={ui.es.areas} en={ui.en.areas} />:{" "}
-        <span data-lang="es">{(person.areas || []).join(" · ")}</span>
-        <span data-lang="en">{areasEn.join(" · ")}</span>
+      <p class="actions">
+        <a href="/docencia"><Bilingual es={ui.es.view_teaching} en={ui.en.view_teaching} /></a>{" "}
+        <a href="/lineas-investigacion"><Bilingual es={ui.es.explore_research} en={ui.en.explore_research} /></a>
       </p>
-      <ul class="chips">
-        {person.profiles.slice(0, 6).map((p) => (
-          <li>
-            <a href={p.url} target="_blank" rel="noopener">
-              <Bilingual es={p.label} en={p.label_en || p.label} />
-            </a>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
-  <h2>
-    <span data-lang="es">{ui.es.current_courses}</span>
-    <span data-lang="en">{ui.en.current_courses}</span>
-  </h2>
-  <ul class="card-list">
-    {currentCourses.map((c) => {
-      const lk = levelKey(c.level);
-      return (
+  <section class="home-pillars" aria-label="Docencia e investigación">
+    <article>
+      <h2><Bilingual es={ui.es.teaching_pillar_title} en={ui.en.teaching_pillar_title} /></h2>
+      <p><Bilingual es={ui.es.teaching_pillar_intro} en={ui.en.teaching_pillar_intro} /></p>
+      {currentCourses.length > 0 && (
+        <ul>
+          {currentCourses.slice(0, 3).map((course) => {
+            const level = levelKey(course.level);
+            return (
+              <li>
+                <strong>{course.title}</strong>
+                {level && (
+                  <> · <Bilingual es={ui.es[level]} en={ui.en[level]} /></>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <p><a href="/docencia"><Bilingual es={ui.es.teaching_pillar_link} en={ui.en.teaching_pillar_link} /></a></p>
+    </article>
+
+    <article>
+      <h2><Bilingual es={ui.es.research_pillar_title} en={ui.en.research_pillar_title} /></h2>
+      <p><Bilingual es={ui.es.research_pillar_intro} en={ui.en.research_pillar_intro} /></p>
+      <ul>
+        {person.areas.slice(0, 3).map((area, index) => (
+          <li>
+            <span data-lang="es">{area}</span>
+            <span data-lang="en">{areasEn[index] || area}</span>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/lineas-investigacion"><Bilingual es={ui.es.research_pillar_link} en={ui.en.research_pillar_link} /></a></p>
+    </article>
+  </section>
+
+  <section aria-labelledby="featured-projects-title">
+    <h2 id="featured-projects-title">
+      <Bilingual es={ui.es.featured_projects} en={ui.en.featured_projects} />
+    </h2>
+    <ul class="card-list">
+      {projects.slice(0, 3).map((project) => (
         <li>
-          <strong>{c.title}</strong>
-          <div class="meta">
-            {c.term}
-            {lk ? (
-              <>
-                {" · "}
-                <Bilingual es={ui.es[lk]} en={ui.en[lk]} />
-              </>
-            ) : c.level ? (
-              <> · {c.level}</>
-            ) : null}
-          </div>
-          {c.url && (
-            <a href={c.url} target="_blank" rel="noopener">
-              <Bilingual es={ui.es.course_site} en={ui.en.course_site} />
-            </a>
-          )}
+          <strong><Bilingual es={project.title_short} en={project.title_short_en} /></strong>
+          <p class="muted"><Bilingual es={project.summary} en={project.summary_en} /></p>
+          <a href={`/proyectos#${project.slug}`}>
+            <Bilingual es={ui.es.open} en={ui.en.open} />
+          </a>
         </li>
-      );
-    })}
-  </ul>
+      ))}
+    </ul>
+  </section>
 
-  <h2>
-    <span data-lang="es">{ui.es.featured_projects}</span>
-    <span data-lang="en">{ui.en.featured_projects}</span>
-  </h2>
-  <ul class="card-list">
-    {projects.slice(0, 4).map((p) => (
-      <li>
-        <strong><Bilingual es={p.title_short} en={p.title_short_en} /></strong>
-        <p class="muted"><Bilingual es={p.summary} en={p.summary_en} /></p>
-      </li>
-    ))}
-  </ul>
+  <section class="student-invitation" aria-labelledby="students-invitation-title">
+    <h2 id="students-invitation-title">
+      <Bilingual es={ui.es.for_students} en={ui.en.for_students} />
+    </h2>
+    <p><Bilingual es={ui.es.for_students_intro} en={ui.en.for_students_intro} /></p>
+    <p class="actions">
+      <a href="/tesis"><Bilingual es={ui.es.explore_theses} en={ui.en.explore_theses} /></a>{" "}
+      <a href={`mailto:${person.email}`}><Bilingual es={ui.es.contact_me} en={ui.en.contact_me} /></a>
+    </p>
+  </section>
 
-  <p class="meta">
-    <span data-lang="es">
-      {ui.es.meta_exported} {dataUpdatedAt}: {publications.length} {ui.es.meta_pubs} ·{" "}
-      {theses.length} {ui.es.meta_theses} · {students.length} {ui.es.meta_students} ·{" "}
-      {courses.length} {ui.es.meta_courses}
-    </span>
-    <span data-lang="en">
-      {ui.en.meta_exported} {dataUpdatedAt}: {publications.length} {ui.en.meta_pubs} ·{" "}
-      {theses.length} {ui.en.meta_theses} · {students.length} {ui.en.meta_students} ·{" "}
-      {courses.length} {ui.en.meta_courses}
-    </span>
-  </p>
+  <section aria-labelledby="recent-publications-title">
+    <h2 id="recent-publications-title">
+      <Bilingual es={ui.es.recent_publications} en={ui.en.recent_publications} />
+    </h2>
+    <ul class="card-list">
+      {recentPublications.map((publication) => {
+        const typology = typologyLabel[publication.typology] || {
+          es: publication.typology_label_es || publication.typology,
+          en: publication.typology_label_es || publication.typology,
+        };
+        return (
+          <li>
+            <div class="meta">
+              {publication.year} · <Bilingual es={typology.es} en={typology.en} />
+            </div>
+            {publication.url ? (
+              <a href={publication.url} target="_blank" rel="noopener"><strong>{publication.title}</strong></a>
+            ) : (
+              <strong>{publication.title}</strong>
+            )}
+            <div class="muted">{publication.authors}</div>
+          </li>
+        );
+      })}
+    </ul>
+    <p><a href="/publicaciones"><Bilingual es={ui.es.view_all_publications} en={ui.en.view_all_publications} /></a></p>
+  </section>
+
+  <section aria-labelledby="academic-profiles-title">
+    <h2 id="academic-profiles-title">
+      <Bilingual es={ui.es.academic_profiles} en={ui.en.academic_profiles} />
+    </h2>
+    <ul class="chips">
+      {person.profiles.map((profile) => (
+        <li>
+          <a href={profile.url} target="_blank" rel="noopener">
+            <Bilingual es={profile.label} en={profile.label_en || profile.label} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
 </Layout>
