@@ -54,7 +54,13 @@ const recentPublications = publications.slice(0, 3);
             const level = levelKey(course.level);
             return (
               <li>
-                <strong>{course.title}</strong>
+                {course.url ? (
+                  <a href={course.url} target="_blank" rel="noopener">
+                    <strong>{course.title}</strong>
+                  </a>
+                ) : (
+                  <strong>{course.title}</strong>
+                )}
                 {level && (
                   <> · <Bilingual es={ui.es[level]} en={ui.en[level]} /></>
                 )}
