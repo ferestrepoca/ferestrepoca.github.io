@@ -186,9 +186,14 @@ h2 {
 }
 
 .person img {
-  width: 140px;
+  width: min(100%, 22rem);
   height: auto;
+  flex: 0 1 22rem;
   border-radius: 4px;
+}
+
+.person .hero-content {
+  flex: 1 1 24rem;
 }
 
 .chips {
