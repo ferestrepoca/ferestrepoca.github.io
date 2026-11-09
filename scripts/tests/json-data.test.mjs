@@ -9,7 +9,7 @@ import { harvestPublications, isProtectedPub, mergeHarvestSources, mergePutCodes
 import { harvestTheses, rebuildStudentsFromTheses } from "../harvest-theses.mjs";
 
 test("the committed JSON dataset is valid", async () => {
-  const names = ["person", "publications", "theses", "students", "courses", "projects", "education", "postdocs", "languages", "intellectual_property"];
+  const names = ["person", "publications", "theses", "students", "courses", "projects", "education", "postdocs", "languages", "intellectual_property", "experience", "wip"];
   const entries = await Promise.all(names.map(async (name) => [name, JSON.parse(await readFile(path.join("web/src/data", `${name}.json`), "utf8"))]));
   assert.doesNotThrow(() => validateDataSet(Object.fromEntries(entries)));
 });

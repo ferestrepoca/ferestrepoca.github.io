@@ -13,6 +13,8 @@ const FILES = [
   "postdocs",
   "languages",
   "intellectual_property",
+  "experience",
+  "wip",
 ];
 
 async function main() {

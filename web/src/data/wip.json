@@ -1,0 +1,44 @@
+[
+  {
+    "id": "wip:ramirez-espejo-ilusion-competencia-genai",
+    "student_name": "Roger Steven Ramírez Espejo",
+    "degree": "doctorado",
+    "title": "Countering GenAI-Induced Illusion of Competence: A Pedagogical Framework for Critical Content Evaluation in Software Architecture and Systems Specification",
+    "role": "director",
+    "codirectors": []
+  },
+  {
+    "id": "wip:morales-jimenez-agente-conversacional",
+    "student_name": "Dairo Enrique Morales Jiménez",
+    "degree": "maestria",
+    "title": "Agente conversacional para apoyar la recolección de respuestas en cuestionarios de satisfacción docente",
+    "role": "director",
+    "codirectors": []
+  },
+  {
+    "id": "wip:ortiz-mora-analitica-python",
+    "student_name": "Maria Alejandra Ortiz Mora",
+    "degree": "maestria",
+    "title": "Caracterización del proceso de aprendizaje de un curso de programación de computadores con Python mediante analítica del aprendizaje",
+    "role": "director",
+    "codirectors": []
+  },
+  {
+    "id": "wip:reyes-gomez-bases-datos-iag",
+    "student_name": "Sergio Alberto Reyes Gómez",
+    "degree": "maestria",
+    "title": "Aprendizaje del diseño de bases de datos en un contexto académico mediado por Inteligencia Artificial Generativa: un estudio cuasi-experimental",
+    "role": "director",
+    "codirectors": [
+      "Jhon Ramírez Echeverry"
+    ]
+  },
+  {
+    "id": "wip:rodriguez-rivera-maestria",
+    "student_name": "Nelson Andrés Rodriguez Rivera",
+    "degree": "maestria",
+    "title": "",
+    "role": "director",
+    "codirectors": []
+  }
+]

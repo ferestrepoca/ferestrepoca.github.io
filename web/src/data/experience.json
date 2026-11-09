@@ -1,0 +1,42 @@
+[
+  {
+    "id": "exp:unal",
+    "institution": "Universidad Nacional de Colombia",
+    "institution_en": "National University of Colombia",
+    "role": "Profesor asociado",
+    "role_en": "Associate professor",
+    "period": "2014–hoy",
+    "period_en": "2014–present",
+    "sort_order": 1
+  },
+  {
+    "id": "exp:ufrgs",
+    "institution": "Universidade Federal do Rio Grande do Sul (Brasil)",
+    "institution_en": "Universidade Federal do Rio Grande do Sul (Brazil)",
+    "role": "Investigador posdoctoral",
+    "role_en": "Postdoctoral researcher",
+    "period": "2014",
+    "period_en": "2014",
+    "sort_order": 2
+  },
+  {
+    "id": "exp:us",
+    "institution": "Universidad de Sevilla (España)",
+    "institution_en": "Universidad de Sevilla (Spain)",
+    "role": "",
+    "role_en": "",
+    "period": "2011–2013",
+    "period_en": "2011–2013",
+    "sort_order": 3
+  },
+  {
+    "id": "exp:utp",
+    "institution": "Universidad Tecnológica de Pereira",
+    "institution_en": "Universidad Tecnológica de Pereira",
+    "role": "",
+    "role_en": "",
+    "period": "2005",
+    "period_en": "2005",
+    "sort_order": 4
+  }
+]

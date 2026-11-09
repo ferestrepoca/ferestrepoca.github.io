@@ -162,6 +162,25 @@
     "visible": true
   },
   {
+    "id": "tesis:10893/36049",
+    "handle": "10893/36049",
+    "title": "Predictive models of academic performance for early intervention in computer programming courses",
+    "year": "2024",
+    "degree": "doctorado",
+    "degree_name_ri": "",
+    "item_url": "https://bibliotecadigital.univalle.edu.co/entities/publication/51973cde-a4cb-4f3c-bd11-464119a43a97",
+    "student_id": "estudiante:llanos-mosquera-jose-miguel",
+    "student_name": "Llanos Mosquera, José Miguel",
+    "advisor_ids": [
+      "docente:ferestrepoca"
+    ],
+    "role": "codirector",
+    "abstract_es": "",
+    "source": "repositorio_univalle",
+    "harvested_at": "",
+    "visible": true
+  },
+  {
     "id": "tesis:unal/84828",
     "handle": "unal/84828",
     "title": "Análisis automático de código fuente aplicado en el software para comercio en línea: SAP Commerce Cloud",

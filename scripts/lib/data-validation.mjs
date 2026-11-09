@@ -1,4 +1,6 @@
 const DEGREE_VALUES = new Set(["maestria", "doctorado"]);
+/** How the person supervises a thesis or work in progress; missing means "director". */
+const ROLE_VALUES = new Set(["director", "codirector"]);
 const CONFIDENCE_VALUES = new Set(["A", "B", "C", "D", "E"]);
 
 function fail(message) {
@@ -96,6 +98,7 @@ export function validateTheses(theses) {
     requireArray(thesis.advisor_ids, `theses[${index}].advisor_ids`);
     if (!DEGREE_VALUES.has(thesis.degree)) fail(`theses[${index}].degree is invalid`);
     if (typeof thesis.visible !== "boolean") fail(`theses[${index}].visible must be boolean`);
+    if ("role" in thesis && !ROLE_VALUES.has(thesis.role)) fail(`theses[${index}].role is invalid`);
   }
   validateUrls(theses, "theses");
 }
@@ -158,5 +161,20 @@ export function validateDataSet(data) {
   validateOrderedCollection(data.postdocs, "postdocs");
   validateOrderedCollection(data.languages, "languages");
   validateOrderedCollection(data.intellectual_property, "intellectual_property");
+  validateOrderedCollection(data.experience, "experience");
+  for (const [index, entry] of data.experience.entries()) {
+    requireString(entry.institution, `experience[${index}].institution`);
+    requireString(entry.period, `experience[${index}].period`);
+  }
+
+  // Students currently supervised (maintained by hand; the title may be empty until defined).
+  validateOrderedCollection(data.wip, "wip");
+  for (const [index, work] of data.wip.entries()) {
+    requireString(work.student_name, `wip[${index}].student_name`);
+    if (!DEGREE_VALUES.has(work.degree)) fail(`wip[${index}].degree is invalid`);
+    if (!ROLE_VALUES.has(work.role)) fail(`wip[${index}].role is invalid`);
+    if (typeof work.title !== "string") fail(`wip[${index}].title must be a string`);
+    requireArray(work.codirectors, `wip[${index}].codirectors`);
+  }
   return data;
 }
