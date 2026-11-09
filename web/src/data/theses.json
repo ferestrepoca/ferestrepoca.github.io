@@ -1,5 +1,23 @@
 [
   {
+    "id": "tesis:unal/90619",
+    "handle": "unal/90619",
+    "title": "Graph-driven security assurance in web-based software architectures",
+    "year": "2026",
+    "degree": "doctorado",
+    "degree_name_ri": "Doctor en Ingeniería - Sistemas y Computación",
+    "item_url": "https://repositorio.unal.edu.co/handle/unal/90619",
+    "student_id": "estudiante:vergara-vargas-jeisson-andres",
+    "student_name": "Vergara Vargas, Jeisson Andrés",
+    "advisor_ids": [
+      "docente:ferestrepoca"
+    ],
+    "abstract_es": "",
+    "source": "repositorio_unal",
+    "harvested_at": "2026-11-09",
+    "visible": true
+  },
+  {
     "id": "tesis:unal/89978",
     "handle": "unal/89978",
     "title": "Prototipo de asistente virtual como apoyo al proceso de aprendizaje en una asignatura de análisis y visualización de datos utilizando grandes modelos de lenguaje",

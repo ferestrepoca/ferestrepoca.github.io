@@ -1,5 +1,28 @@
 [
   {
+    "id": "pub:doi:10.1007/978-3-032-39143-8_9",
+    "doi": "10.1007/978-3-032-39143-8_9",
+    "title": "Sarch: An Integrated Tool for Architecture-Based Security Assurance",
+    "year": "2026",
+    "date_issued": "2026-09-19",
+    "typology": "book_chapter",
+    "typology_label_es": "Capítulos de libros",
+    "venue_title": "Lecture Notes in Computer Science",
+    "authors": "Jeisson Vergara-Vargas; Felipe Restrepo-Calle; Salah Sadou; Chouki Tibermacine",
+    "publisher_name": "Springer Nature Switzerland",
+    "url": "https://doi.org/10.1007/978-3-032-39143-8_9",
+    "identity_confidence": "A",
+    "harvest_sources": [
+      "orcid",
+      "crossref"
+    ],
+    "orcid_put_codes": [
+      "227132579"
+    ],
+    "harvested_at": "2026-11-09",
+    "notes": ""
+  },
+  {
     "id": "pub:doi:10.21125/inted.2026.1015",
     "doi": "10.21125/inted.2026.1015",
     "title": "Open-Source Small Language Models for Curriculum-Aligned Math Tutoring in Low-Resource Settings",
