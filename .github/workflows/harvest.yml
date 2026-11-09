@@ -1,0 +1,108 @@
+name: Harvest
+
+# Cosecha semanal de publicaciones (ORCID → Crossref) y tesis (repositorio UNAL).
+# Si hay cambios y la validación, las pruebas y el build pasan, los commitea en la
+# rama donde corre y lanza el despliegue: un push hecho con GITHUB_TOKEN no dispara
+# los workflows de `on: push`. El cron solo corre sobre la rama por defecto.
+
+on:
+  schedule:
+    - cron: '0 11 * * 1' # lunes, 6:00 a. m. en Colombia
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: harvest
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install web dependencies
+        run: npm ci --prefix web
+
+      # Cada fuente por separado: si una falla (p. ej. el repositorio UNAL caído), lo que
+      # trajo la otra se publica igual y el run termina en rojo al final para que se note.
+      - name: Harvest publications
+        id: publications
+        continue-on-error: true
+        run: npm run harvest:publications
+
+      - name: Harvest theses
+        id: theses
+        continue-on-error: true
+        run: |
+          npm run harvest:theses 2>&1 | tee "$RUNNER_TEMP/theses.log"
+          # El script registra los errores de consulta y sigue; aquí cuentan como falla.
+          ! grep -q 'ERROR:' "$RUNNER_TEMP/theses.log"
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet -- web/src/data; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Test and build
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          npm test
+          npm run build
+
+      - name: Summarize
+        run: |
+          node scripts/harvest-summary.mjs > "$RUNNER_TEMP/added.md"
+          {
+            echo "## Cosecha $(date -u +%F)"
+            echo
+            if [ -s "$RUNNER_TEMP/added.md" ]; then cat "$RUNNER_TEMP/added.md"; else echo "Sin registros nuevos."; fi
+            echo
+            echo "Publicaciones: ${{ steps.publications.outcome }} · Tesis: ${{ steps.theses.outcome }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          {
+            echo "data: cosecha semanal $(date -u +%F)"
+            echo
+            cat "$RUNNER_TEMP/added.md"
+          } > "$RUNNER_TEMP/message.txt"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/src/data
+          git commit -F "$RUNNER_TEMP/message.txt"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
+
+      - name: Deploy
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref "$GITHUB_REF_NAME"
+
+      - name: Fail if a source could not be harvested
+        if: steps.publications.outcome == 'failure' || steps.theses.outcome == 'failure'
+        run: |
+          echo "::error::Falló la cosecha de: publicaciones=${{ steps.publications.outcome }}, tesis=${{ steps.theses.outcome }}"
+          exit 1

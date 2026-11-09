@@ -168,6 +168,7 @@ export async function harvestPublications({
     };
 
     if (existing) {
+      const before = JSON.stringify(existing);
       const protectedRow = isProtectedPub(existing);
       if (protectedRow) stats.merged_protected++;
       row.orcid_put_codes = mergePutCodes(existing.orcid_put_codes, String(work.putCode || ""));
@@ -187,7 +188,9 @@ export async function harvestPublications({
         row.typology_label_es = typology.typology_label_es || row.typology_label_es;
       }
       if (!protectedRow && !row.notes && confidence === "C") row.notes = "crossref_unresolved";
-      row.harvested_at = TODAY;
+      // Only touch the date when the harvest actually changed the row, so a run
+      // with no news leaves publications.json byte-identical (no weekly commit).
+      if (JSON.stringify(row) !== before) row.harvested_at = TODAY;
     }
 
     publications.set(publicationId, row);

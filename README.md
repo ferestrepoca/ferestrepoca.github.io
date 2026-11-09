@@ -23,3 +23,5 @@ npm run harvest:theses
 ```
 
 Datos canónicos: `web/src/data/*.json` → detalle en [`docs/capa-datos-astro.md`](docs/capa-datos-astro.md).
+
+**Cosecha automática:** [`.github/workflows/harvest.yml`](.github/workflows/harvest.yml) corre ambos harvest cada lunes (6:00 a. m. en Colombia) sobre la rama por defecto; también se puede lanzar en **Actions → Harvest → Run workflow**. Si hay registros nuevos y la validación, las pruebas y el build pasan, hace commit (`data: cosecha semanal …`, con la lista de lo agregado) y lanza el despliegue de Pages. Si una fuente falla, publica lo de la otra y el run queda en rojo.
