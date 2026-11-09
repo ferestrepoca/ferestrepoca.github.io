@@ -1,15 +1,157 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Bilingual from "../components/Bilingual.astro";
-import { ui, levelKey, typologyLabel } from "../i18n/ui";
+import { ui, levelKey, typologyLabel, degreeKey } from "../i18n/ui";
+import { AREAS, areasFor } from "../lib/areas";
+import { TOPICS, topicsFor } from "../lib/topics";
+import TopicGraph, { type GraphNode, type GraphEdge } from "../components/TopicGraph.astro";
+import { publicationsWithStudent } from "../lib/coauthors";
 import person from "../data/person.json";
 import courses from "../data/courses.json";
 import projects from "../data/projects.json";
 import publications from "../data/publications.json";
+import theses from "../data/theses.json";
+import wip from "../data/wip.json";
+import experience from "../data/experience.json";
+import education from "../data/education.json";
+import postdocs from "../data/postdocs.json";
 
+const visibleTheses = theses.filter((thesis) => thesis.visible !== false);
+const trajectory = [...experience].sort((a, b) => a.sort_order - b.sort_order);
+const yearsAtUnal = new Date().getFullYear() - 2014;
+
+const typologyOf = (publication: (typeof publications)[number]) =>
+  typologyLabel[publication.typology as keyof typeof typologyLabel] || {
+    es: publication.typology_label_es || publication.typology,
+    en: publication.typology_label_es || publication.typology,
+  };
+const degreeLabel = (degree: string) => {
+  const key = degreeKey(degree);
+  return key ? { es: ui.es[key], en: ui.en[key] } : { es: degree, en: degree };
+};
+
+/* Tabs under the hero: each one is a full section of the site. */
+const tabs = [
+  { id: "investigacion", es: ui.es.tab_research, en: ui.en.tab_research },
+  { id: "docencia", es: ui.es.nav_teaching, en: ui.en.nav_teaching },
+  { id: "publicaciones", es: ui.es.nav_pubs, en: ui.en.nav_pubs },
+  { id: "estudiantes", es: ui.es.tab_students, en: ui.en.tab_students },
+  { id: "proyectos", es: ui.es.nav_projects, en: ui.en.nav_projects },
+  { id: "trayectoria", es: ui.es.tile_path, en: ui.en.tile_path },
+];
+
+/* Research: every item carries the areas it belongs to. */
+const pubItems = publications.map((p) => ({
+  ...p,
+  areas: areasFor(p.title, p.venue_title),
+  topics: topicsFor(p.title, p.venue_title),
+}));
+const thesisItems = visibleTheses.map((t) => ({ ...t, areas: areasFor(t.title), topics: topicsFor(t.title) }));
+const projectItems = projects.map((p) => ({
+  ...p,
+  areas: areasFor(p.title_full, p.summary, JSON.stringify(p.detail)),
+  topics: topicsFor(p.title_full, p.summary),
+}));
+const LIMITS = { publications: 5, theses: 4, projects: 3 };
+const areaCount = (id: string) =>
+  [...pubItems, ...thesisItems, ...projectItems].filter((item) => item.areas.includes(id as never)).length;
+const totalCount = pubItems.length + thesisItems.length + projectItems.length;
+
+/* Topic graph: area hubs, their topics around them (sized by publications + theses),
+   and cross edges where one piece of work joins topics of different areas. */
+// Each area's topics fan outward on an arc (degrees) with radii rx/ry, away from
+// the other areas. Values chosen so no two labels overlap in Spanish or English.
+const HUBS: Record<string, { x: number; y: number; arc: [number, number]; rx: number; ry: number }> = {
+  educacion: { x: 0.24, y: 0.49, arc: [121, 241], rx: 0.2, ry: 0.315 },
+  datos: { x: 0.52, y: 0.177, arc: [207, 346], rx: 0.313, ry: 0.21 },
+  lenguajes: { x: 0.464, y: 0.835, arc: [6, 171], rx: 0.21, ry: 0.194 },
+  confiabilidad: { x: 0.815, y: 0.557, arc: [-74, 74], rx: 0.135, ry: 0.314 },
+};
+const graphWork = [...pubItems, ...thesisItems];
+const topicCount = (id: string) => graphWork.filter((w) => w.topics.includes(id)).length;
+const graphNodes: GraphNode[] = [];
+const graphEdges: GraphEdge[] = [];
+const clamp = (v: number) => Math.min(Math.max(v, 0.02), 0.98);
+// Phones: areas stacked in bands, topics in two columns beside their area
+// (a 5th topic sits above the area).
+const MOBILE_BAND = [0.13, 0.38, 0.63, 0.88];
+const MOBILE_SLOTS = [
+  { x: 0.17, y: -0.075 },
+  { x: 0.83, y: -0.075 },
+  { x: 0.17, y: 0.07 },
+  { x: 0.83, y: 0.07 },
+  { x: 0.5, y: -0.115 },
+];
+for (const [areaIndex, area] of AREAS.entries()) {
+  const { arc, rx, ry, ...hub } = HUBS[area.id];
+  const band = MOBILE_BAND[areaIndex];
+  graphNodes.push({
+    id: area.id,
+    label: area.label,
+    weight: 5,
+    ...hub,
+    mx: 0.5,
+    my: band,
+    hub: true,
+    filter: { kind: "area", id: area.id },
+  });
+  const topics = TOPICS.filter((t) => t.area === area.id && topicCount(t.id) > 0);
+  topics.forEach((topic, j) => {
+    const step = topics.length > 1 ? (arc[1] - arc[0]) / (topics.length - 1) : 0;
+    const angle = ((arc[0] + step * j) * Math.PI) / 180;
+    const count = topicCount(topic.id);
+    graphNodes.push({
+      id: topic.id,
+      label: topic.label,
+      weight: Math.min(1 + count / 6, 3.2),
+      x: clamp(hub.x + rx * Math.cos(angle)),
+      y: clamp(hub.y + ry * Math.sin(angle)),
+      mx: MOBILE_SLOTS[j].x,
+      my: clamp(band + MOBILE_SLOTS[j].y),
+      filter: { kind: "topic", id: topic.id },
+    });
+    graphEdges.push({ source: area.id, target: topic.id, weight: count });
+  });
+}
+const areaOfTopic = Object.fromEntries(TOPICS.map((t) => [t.id, t.area]));
+const crossCounts = new Map<string, number>();
+for (const work of graphWork) {
+  for (let i = 0; i < work.topics.length; i++)
+    for (let j = i + 1; j < work.topics.length; j++) {
+      const [a, b] = [work.topics[i], work.topics[j]].sort();
+      if (areaOfTopic[a] === areaOfTopic[b]) continue;
+      crossCounts.set(`${a}|${b}`, (crossCounts.get(`${a}|${b}`) ?? 0) + 1);
+    }
+}
+for (const [key, weight] of crossCounts) {
+  if (weight < 2) continue; // a single shared work is noise in the drawing
+  const [source, target] = key.split("|");
+  graphEdges.push({ source, target, weight, cross: true });
+}
+
+/* Teaching. */
 const currentCourses = courses.filter((course) => course.current);
-const areasEn = person.areas_en?.length ? person.areas_en : person.areas;
-const recentPublications = publications.slice(0, 3);
+const openResources = courses.filter((course) => !course.term || course.level === "mooc");
+const pastCourses = courses.filter((course) => !course.current && course.term && course.level !== "mooc");
+const pastTerms = [...new Set(pastCourses.map((course) => course.term))].sort((a, b) => b.localeCompare(a));
+
+/* Publications by year: recent years open, the rest folded. */
+const pubYears = [...new Set(publications.map((p) => p.year))].sort((a, b) => b.localeCompare(a));
+const RECENT_YEARS = 3;
+const olderCount = publications.filter((p) => !pubYears.slice(0, RECENT_YEARS).includes(p.year)).length;
+
+const thisYear = String(new Date().getFullYear());
+
+/* Students. */
+const thesesByDegree = ["doctorado", "maestria"]
+  .map((degree) => ({
+    degree,
+    items: visibleTheses
+      .filter((t) => t.degree === degree)
+      .map((t) => ({ ...t, jointPublications: publicationsWithStudent(publications, t.student_name) })),
+  }))
+  .filter((group) => group.items.length);
+
 ---
 <Layout
   title={`${person.name_display} — Docencia e investigación`}
@@ -17,144 +159,457 @@ const recentPublications = publications.slice(0, 3);
   description="Docencia e investigación en ciencias de la computación — Felipe Restrepo Calle"
   descriptionEn="Teaching and research in computer science — Felipe Restrepo Calle"
 >
-  <section class="hero person" aria-labelledby="home-title">
-    <img
-      src={person.image_path}
-      alt={`${ui.es.photo_alt} ${person.name_display}`}
-      width="1600"
-      height="1066"
-    />
-    <div class="hero-content">
+  <!-- Hero: open layout, no boxes. -->
+  <section class="hero" aria-labelledby="home-title">
+    <div class="hero__text">
       <p class="eyebrow">
-        <Bilingual es={ui.es.hero_kicker} en={ui.en.hero_kicker} />
+        <Bilingual es={person.institution} en={person.institution_en} /> · {person.city}
       </p>
       <h1 id="home-title">{person.name_display}</h1>
-      <p class="lead">
-        <Bilingual es={ui.es.hero_intro} en={ui.en.hero_intro} />
-      </p>
-      <p class="muted">
+      <p class="hero__role">
         <Bilingual es={person.rank} en={person.rank_en} /> ·{" "}
-        <Bilingual es={person.institution} en={person.institution_en} /><br />
-        <Bilingual es={person.department} en={person.department_en} /> · {person.city}
+        <strong><Bilingual es={person.group_role} en={person.group_role_en} /></strong>
       </p>
-      <p class="actions">
-        <a href="/docencia"><Bilingual es={ui.es.view_teaching} en={ui.en.view_teaching} /></a>{" "}
-        <a href="/lineas-investigacion"><Bilingual es={ui.es.explore_research} en={ui.en.explore_research} /></a>
-      </p>
+      <p class="hero__bio" data-lang="es">{person.bio}</p>
+      <p class="hero__bio" data-lang="en">{person.bio_en}</p>
+      <div class="hero__actions">
+        <a class="button button--solid" href={`mailto:${person.email}`}>
+          <Bilingual es={ui.es.write_me} en={ui.en.write_me} /> →
+        </a>
+        <a class="button button--ghost" href="#trayectoria" data-tab-link="trayectoria">
+          <Bilingual es={ui.es.view_cv} en={ui.en.view_cv} />
+        </a>
+      </div>
+    </div>
+    <figure class="hero__photo">
+      <img
+        src={person.image_path}
+        alt={`${ui.es.photo_alt} ${person.name_display}`}
+        width="1600"
+        height="1066"
+        fetchpriority="high"
+      />
+    </figure>
+
+    <dl class="figures">
+      <div>
+        <dd data-countup={publications.length}>{publications.length}</dd>
+        <dt><Bilingual es={ui.es.stat_publications} en={ui.en.stat_publications} /></dt>
+      </div>
+      <div>
+        <dd data-countup={visibleTheses.length}>{visibleTheses.length}</dd>
+        <dt><Bilingual es={ui.es.stat_theses} en={ui.en.stat_theses} /></dt>
+      </div>
+      <div>
+        <dd data-countup={wip.length}>{wip.length}</dd>
+        <dt><Bilingual es={ui.es.stat_students} en={ui.en.stat_students} /></dt>
+      </div>
+      <div>
+        <dd data-countup={yearsAtUnal}>{yearsAtUnal}</dd>
+        <dt><Bilingual es={ui.es.stat_years} en={ui.en.stat_years} /></dt>
+      </div>
+    </dl>
+
+  </section>
+
+  <!-- Quick section switcher. -->
+  <div class="tabs" data-tabs>
+    <div class="tabs__bar" role="tablist" aria-label={ui.es.sections}>
+      {tabs.map((tab, index) => (
+        <a
+          class="tabs__tab"
+          role="tab"
+          id={`tab-${tab.id}`}
+          href={`#${tab.id}`}
+          aria-controls={tab.id}
+          aria-selected={index === 0 ? "true" : "false"}
+          data-tab={tab.id}
+        >
+          <Bilingual es={tab.es} en={tab.en} />
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Research -->
+  <section class="tabpanel tabpanel--wide is-active" id="investigacion" role="tabpanel" aria-labelledby="tab-investigacion" data-explorer>
+    <header class="tabpanel__head">
+      <h2><Bilingual es={ui.es.explorer_title} en={ui.en.explorer_title} /></h2>
+      <p><Bilingual es={ui.es.explorer_intro} en={ui.en.explorer_intro} /></p>
+    </header>
+    <div class="tabpanel__body">
+      <TopicGraph
+        nodes={graphNodes}
+        edges={graphEdges}
+        title={{ es: ui.es.graph_title, en: ui.en.graph_title }}
+        height={680}
+      />
+      <p class="graph-hint"><Bilingual es={ui.es.graph_hint} en={ui.en.graph_hint} /></p>
+
+      <ul class="area-picker" role="list">
+        <li>
+          <button type="button" data-area-button="all" aria-pressed="true">
+            <Bilingual es={ui.es.all_areas} en={ui.en.all_areas} />
+            <span class="area-picker__count">{totalCount}</span>
+          </button>
+        </li>
+        {AREAS.map((area, index) => (
+          <li>
+            <button type="button" data-area-button={area.id} aria-pressed="false" title={person.areas[index]}>
+              <Bilingual es={area.label.es} en={area.label.en} />
+              <span class="area-picker__count">{areaCount(area.id)}</span>
+            </button>
+          </li>
+        ))}
+        <li data-topic-chip hidden>
+          <button type="button" class="topic-chip" data-topic-clear aria-pressed="true">
+            <span data-lang="es">Tema:</span><span data-lang="en">Topic:</span>
+            <span data-lang="es" data-topic-label-es></span><span data-lang="en" data-topic-label-en></span>
+            <span aria-hidden="true">✕</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="explorer" aria-live="polite">
+        <section class="explorer__col" data-column data-limit={LIMITS.publications}>
+          <h3>
+            <Bilingual es={ui.es.publications} en={ui.en.publications} />
+            <span class="explorer__count" data-count>{pubItems.length}</span>
+          </h3>
+          <ul class="entries">
+            {pubItems.map((publication, index) => (
+              <li data-areas={publication.areas.join(" ")} data-topics={publication.topics.join(" ")} hidden={index >= LIMITS.publications}>
+                {publication.url ? (
+                  <a class="entry__title" href={publication.url} target="_blank" rel="noopener">{publication.title}</a>
+                ) : (
+                  <span class="entry__title">{publication.title}</span>
+                )}
+                <span class="entry__meta">
+                  {publication.year === thisYear && <span class="tag tag--new"><Bilingual es={ui.es.new_tag} en={ui.en.new_tag} /></span>}
+                  {publication.year} · <Bilingual es={typologyOf(publication).es} en={typologyOf(publication).en} />
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p class="explorer__empty" data-empty hidden><Bilingual es={ui.es.nothing_here} en={ui.en.nothing_here} /></p>
+        </section>
+
+        <section class="explorer__col" data-column data-limit={LIMITS.theses}>
+          <h3>
+            <Bilingual es={ui.es.theses} en={ui.en.theses} />
+            <span class="explorer__count" data-count>{thesisItems.length}</span>
+          </h3>
+          <ul class="entries">
+            {thesisItems.map((thesis, index) => (
+              <li data-areas={thesis.areas.join(" ")} data-topics={thesis.topics.join(" ")} hidden={index >= LIMITS.theses}>
+                {thesis.item_url ? (
+                  <a class="entry__title" href={thesis.item_url} target="_blank" rel="noopener">{thesis.title}</a>
+                ) : (
+                  <span class="entry__title">{thesis.title}</span>
+                )}
+                <span class="entry__meta">{thesis.student_name} · {thesis.year}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="explorer__empty" data-empty hidden><Bilingual es={ui.es.nothing_here} en={ui.en.nothing_here} /></p>
+        </section>
+
+        <section class="explorer__col" data-column data-limit={LIMITS.projects}>
+          <h3>
+            <Bilingual es={ui.es.projects} en={ui.en.projects} />
+            <span class="explorer__count" data-count>{projectItems.length}</span>
+          </h3>
+          <ul class="entries">
+            {projectItems.map((project, index) => (
+              <li data-areas={project.areas.join(" ")} data-topics={project.topics.join(" ")} hidden={index >= LIMITS.projects}>
+                <span class="entry__title"><Bilingual es={project.title_short} en={project.title_short_en} /></span>
+                <span class="entry__meta"><Bilingual es={project.summary} en={project.summary_en} /></span>
+              </li>
+            ))}
+          </ul>
+          <p class="explorer__empty" data-empty hidden><Bilingual es={ui.es.nothing_here} en={ui.en.nothing_here} /></p>
+        </section>
+      </div>
     </div>
   </section>
 
-  <section class="home-pillars" aria-label="Docencia e investigación">
-    <article>
-      <h2><Bilingual es={ui.es.teaching_pillar_title} en={ui.en.teaching_pillar_title} /></h2>
-      <p><Bilingual es={ui.es.teaching_pillar_intro} en={ui.en.teaching_pillar_intro} /></p>
-      {currentCourses.length > 0 && (
-        <ul>
-          {currentCourses.slice(0, 3).map((course) => {
-            const level = levelKey(course.level);
-            return (
+  <!-- Teaching -->
+  <section class="tabpanel" id="docencia" role="tabpanel" aria-labelledby="tab-docencia">
+    <header class="tabpanel__head">
+      <h2><Bilingual es={ui.es.teaching} en={ui.en.teaching} /></h2>
+      <p><Bilingual es={ui.es.teaching_intro} en={ui.en.teaching_intro} /></p>
+    </header>
+    <div class="tabpanel__body">
+      <h3 class="subhead"><Bilingual es={ui.es.tile_courses} en={ui.en.tile_courses} /></h3>
+      <ul class="entries entries--large">
+        {currentCourses.map((course) => {
+          const level = levelKey(course.level);
+          return (
+            <li>
+              {course.url ? (
+                <a class="entry__title" href={course.url} target="_blank" rel="noopener">{course.title}</a>
+              ) : (
+                <span class="entry__title">{course.title}</span>
+              )}
+              <span class="entry__meta">
+                {course.term}{level && <> · <Bilingual es={ui.es[level]} en={ui.en[level]} /></>}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+
+      {openResources.length > 0 && (
+        <>
+          <h3 class="subhead"><Bilingual es={ui.es.open_resources} en={ui.en.open_resources} /></h3>
+          <ul class="entries">
+            {openResources.map((course) => (
               <li>
                 {course.url ? (
-                  <a href={course.url} target="_blank" rel="noopener">
-                    <strong>{course.title}</strong>
-                  </a>
+                  <a class="entry__title" href={course.url} target="_blank" rel="noopener">{course.title}</a>
                 ) : (
-                  <strong>{course.title}</strong>
-                )}
-                {level && (
-                  <> · <Bilingual es={ui.es[level]} en={ui.en[level]} /></>
+                  <span class="entry__title">{course.title}</span>
                 )}
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </>
       )}
-      <p><a href="/docencia"><Bilingual es={ui.es.teaching_pillar_link} en={ui.en.teaching_pillar_link} /></a></p>
-    </article>
 
-    <article>
-      <h2><Bilingual es={ui.es.research_pillar_title} en={ui.en.research_pillar_title} /></h2>
-      <p><Bilingual es={ui.es.research_pillar_intro} en={ui.en.research_pillar_intro} /></p>
-      <ul>
-        {person.areas.slice(0, 3).map((area, index) => (
+      <details class="fold">
+        <summary>
+          <Bilingual es={ui.es.course_history} en={ui.en.course_history} /> ({pastCourses.length})
+        </summary>
+        <div class="terms">
+          {pastTerms.map((term) => (
+            <div class="terms__term">
+              <span class="terms__label">{term}</span>
+              <ul>
+                {pastCourses.filter((course) => course.term === term).map((course) => (
+                  <li>
+                    {course.url ? (
+                      <a href={course.url} target="_blank" rel="noopener">{course.title}</a>
+                    ) : (
+                      course.title
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section class="tabpanel" id="publicaciones" role="tabpanel" aria-labelledby="tab-publicaciones">
+    <header class="tabpanel__head">
+      <h2><Bilingual es={ui.es.publications} en={ui.en.publications} /></h2>
+      <p><Bilingual es={ui.es.publications_intro} en={ui.en.publications_intro} /></p>
+      <a class="tabpanel__link" href="/publicaciones">
+        <Bilingual es={ui.es.search_publications} en={ui.en.search_publications} /> →
+      </a>
+    </header>
+    <div class="tabpanel__body">
+      {pubYears.slice(0, RECENT_YEARS).map((year) => (
+        <div class="year-group" id={`pub-${year}`}>
+          <span class="year-group__year">{year}</span>
+          <ul class="entries">
+            {publications.filter((p) => p.year === year).map((publication) => (
+              <li>
+                {publication.url ? (
+                  <a class="entry__title" href={publication.url} target="_blank" rel="noopener">{publication.title}</a>
+                ) : (
+                  <span class="entry__title">{publication.title}</span>
+                )}
+                <span class="entry__meta">
+                  {publication.year === thisYear && <span class="tag tag--new"><Bilingual es={ui.es.new_tag} en={ui.en.new_tag} /></span>}
+                  <Bilingual es={typologyOf(publication).es} en={typologyOf(publication).en} />
+                  {publication.venue_title && <> · {publication.venue_title}</>}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <details class="fold">
+        <summary>
+          <Bilingual es={ui.es.earlier_publications} en={ui.en.earlier_publications} /> ({olderCount})
+        </summary>
+        {pubYears.slice(RECENT_YEARS).map((year) => (
+          <div class="year-group" id={`pub-${year}`}>
+            <span class="year-group__year">{year}</span>
+            <ul class="entries">
+              {publications.filter((p) => p.year === year).map((publication) => (
+                <li>
+                  {publication.url ? (
+                    <a class="entry__title" href={publication.url} target="_blank" rel="noopener">{publication.title}</a>
+                  ) : (
+                    <span class="entry__title">{publication.title}</span>
+                  )}
+                  <span class="entry__meta">
+                    <Bilingual es={typologyOf(publication).es} en={typologyOf(publication).en} />
+                    {publication.venue_title && <> · {publication.venue_title}</>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </details>
+    </div>
+  </section>
+
+  <!-- Students -->
+  <section class="tabpanel" id="estudiantes" role="tabpanel" aria-labelledby="tab-estudiantes">
+    <header class="tabpanel__head">
+      <h2><Bilingual es={ui.es.tab_students} en={ui.en.tab_students} /></h2>
+      <p><Bilingual es={ui.es.students_intro} en={ui.en.students_intro} /></p>
+    </header>
+    <div class="tabpanel__body">
+      <h3 class="subhead"><Bilingual es={ui.es.in_progress} en={ui.en.in_progress} /></h3>
+      <ul class="entries entries--large">
+        {wip.map((work) => {
+          const degree = degreeLabel(work.degree);
+          return (
+            <li>
+              <span class="entry__title">{work.student_name}</span>
+              <span class="entry__text">
+                {work.title || <em><Bilingual es={ui.es.untitled_work} en={ui.en.untitled_work} /></em>}
+              </span>
+              <span class="entry__meta">
+                <Bilingual es={degree.es} en={degree.en} />
+                {work.codirectors.length > 0 && (
+                  <> · <Bilingual es={ui.es.codirected_with} en={ui.en.codirected_with} /> {work.codirectors.join(", ")}</>
+                )}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+
+      {thesesByDegree.map((group) => {
+        const degree = degreeLabel(group.degree);
+        return (
+          <>
+            <h3 class="subhead">
+              <Bilingual es={ui.es.graduates} en={ui.en.graduates} /> · <Bilingual es={degree.es} en={degree.en} /> ({group.items.length})
+            </h3>
+            <ul class="entries">
+              {group.items.map((thesis) => (
+                <li>
+                  {thesis.item_url ? (
+                    <a class="entry__title" href={thesis.item_url} target="_blank" rel="noopener">{thesis.title}</a>
+                  ) : (
+                    <span class="entry__title">{thesis.title}</span>
+                  )}
+                  <span class="entry__meta">
+                    {thesis.student_name} · {thesis.year}
+                    {thesis.role === "codirector" && <> · <Bilingual es={ui.es.codirection} en={ui.en.codirection} /></>}
+                    {thesis.jointPublications > 0 && (
+                      <span class="tag">
+                        <Bilingual
+                          es={`coautor · ${thesis.jointPublications} ${thesis.jointPublications === 1 ? "publicación" : "publicaciones"}`}
+                          en={`coauthor · ${thesis.jointPublications} ${thesis.jointPublications === 1 ? "publication" : "publications"}`}
+                        />
+                      </span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="tabpanel" id="proyectos" role="tabpanel" aria-labelledby="tab-proyectos">
+    <header class="tabpanel__head">
+      <h2><Bilingual es={ui.es.projects} en={ui.en.projects} /></h2>
+      <p><Bilingual es={ui.es.projects_intro} en={ui.en.projects_intro} /></p>
+    </header>
+    <div class="tabpanel__body">
+      <ul class="entries entries--large">
+        {projects.map((project) => (
           <li>
-            <span data-lang="es">{area}</span>
-            <span data-lang="en">{areasEn[index] || area}</span>
+            <span class="entry__title">
+              <Bilingual es={project.title_full || project.title_short} en={project.title_full_en || project.title_short_en} />
+            </span>
+            <span class="entry__text"><Bilingual es={project.summary} en={project.summary_en} /></span>
+            {(project.links || []).length > 0 && (
+              <span class="entry__links">
+                {project.links.map((link) => (
+                  <a href={link.url} target="_blank" rel="noopener">
+                    <Bilingual es={link.label} en={link.label_en || link.label} /> ↗
+                  </a>
+                ))}
+              </span>
+            )}
           </li>
         ))}
       </ul>
-      <p><a href="/lineas-investigacion"><Bilingual es={ui.es.research_pillar_link} en={ui.en.research_pillar_link} /></a></p>
-    </article>
+    </div>
   </section>
 
-  <section aria-labelledby="featured-projects-title">
-    <h2 id="featured-projects-title">
-      <Bilingual es={ui.es.featured_projects} en={ui.en.featured_projects} />
-    </h2>
-    <ul class="card-list">
-      {projects.slice(0, 3).map((project) => (
-        <li>
-          <strong><Bilingual es={project.title_short} en={project.title_short_en} /></strong>
-          <p class="muted"><Bilingual es={project.summary} en={project.summary_en} /></p>
-          <a href={`/proyectos#${project.slug}`}>
-            <Bilingual es={ui.es.open} en={ui.en.open} />
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section class="student-invitation" aria-labelledby="students-invitation-title">
-    <h2 id="students-invitation-title">
-      <Bilingual es={ui.es.for_students} en={ui.en.for_students} />
-    </h2>
-    <p><Bilingual es={ui.es.for_students_intro} en={ui.en.for_students_intro} /></p>
-    <p class="actions">
-      <a href="/tesis"><Bilingual es={ui.es.explore_theses} en={ui.en.explore_theses} /></a>{" "}
-      <a href={`mailto:${person.email}`}><Bilingual es={ui.es.contact_me} en={ui.en.contact_me} /></a>
-    </p>
-  </section>
-
-  <section aria-labelledby="recent-publications-title">
-    <h2 id="recent-publications-title">
-      <Bilingual es={ui.es.recent_publications} en={ui.en.recent_publications} />
-    </h2>
-    <ul class="card-list">
-      {recentPublications.map((publication) => {
-        const typology = typologyLabel[publication.typology] || {
-          es: publication.typology_label_es || publication.typology,
-          en: publication.typology_label_es || publication.typology,
-        };
-        return (
+  <!-- Background -->
+  <section class="tabpanel" id="trayectoria" role="tabpanel" aria-labelledby="tab-trayectoria">
+    <header class="tabpanel__head">
+      <h2><Bilingual es={ui.es.tile_path} en={ui.en.tile_path} /></h2>
+      <p><Bilingual es={ui.es.curriculum_intro} en={ui.en.curriculum_intro} /></p>
+      <a class="tabpanel__link" href="/cv"><Bilingual es={ui.es.full_cv} en={ui.en.full_cv} /> →</a>
+    </header>
+    <div class="tabpanel__body">
+      <ol class="path">
+        {trajectory.map((entry) => (
           <li>
-            <div class="meta">
-              {publication.year} · <Bilingual es={typology.es} en={typology.en} />
-            </div>
-            {publication.url ? (
-              <a href={publication.url} target="_blank" rel="noopener"><strong>{publication.title}</strong></a>
-            ) : (
-              <strong>{publication.title}</strong>
-            )}
-            <div class="muted">{publication.authors}</div>
+            <span class="path__period"><Bilingual es={entry.period} en={entry.period_en} /></span>
+            <span class="path__place">
+              <Bilingual es={entry.institution} en={entry.institution_en} />
+              {entry.role && <span class="path__role"><Bilingual es={entry.role} en={entry.role_en} /></span>}
+            </span>
           </li>
-        );
-      })}
-    </ul>
-    <p><a href="/publicaciones"><Bilingual es={ui.es.view_all_publications} en={ui.en.view_all_publications} /></a></p>
+        ))}
+      </ol>
+
+      <h3 class="subhead"><Bilingual es={ui.es.education} en={ui.en.education} /></h3>
+      <ul class="entries">
+        {postdocs.map((postdoc) => (
+          <li>
+            <span class="entry__title">
+              <Bilingual es={`Posdoctorado · ${postdoc.institution}`} en={`Postdoc · ${postdoc.institution}`} />
+            </span>
+            <span class="entry__text"><Bilingual es={postdoc.project} en={postdoc.project_en} /></span>
+            <span class="entry__meta">{postdoc.date_from.slice(0, 4)}</span>
+          </li>
+        ))}
+        {education.map((entry) => (
+          <li>
+            <span class="entry__title"><Bilingual es={entry.title} en={entry.title_en} /></span>
+            {(entry.honors || entry.honors_en) && (
+              <span class="entry__text"><Bilingual es={entry.honors} en={entry.honors_en} /></span>
+            )}
+            <span class="entry__meta">
+              <Bilingual es={entry.institution} en={entry.institution_en} /> · {entry.year}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="subhead"><Bilingual es={ui.es.academic_profiles} en={ui.en.academic_profiles} /></h3>
+      <ul class="chips">
+        {person.profiles.map((profile) => (
+          <li>
+            <a href={profile.url} target="_blank" rel="noopener">
+              <Bilingual es={profile.label} en={profile.label_en || profile.label} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 
-  <section aria-labelledby="academic-profiles-title">
-    <h2 id="academic-profiles-title">
-      <Bilingual es={ui.es.academic_profiles} en={ui.en.academic_profiles} />
-    </h2>
-    <ul class="chips">
-      {person.profiles.map((profile) => (
-        <li>
-          <a href={profile.url} target="_blank" rel="noopener">
-            <Bilingual es={profile.label} en={profile.label_en || profile.label} />
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <script src="/scripts/home.js" is:inline defer></script>
 </Layout>
