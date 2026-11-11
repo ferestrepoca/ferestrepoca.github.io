@@ -1,5 +1,8 @@
 ---
+import "@fontsource-variable/fraunces/opsz.css";
+import "@fontsource-variable/instrument-sans/wght.css";
 import { ui } from "../i18n/ui";
+import person from "../data/person.json";
 
 interface Props {
   title: string;
@@ -14,18 +17,9 @@ const {
   descriptionEn = "Personal website — Felipe Restrepo Calle",
 } = Astro.props;
 
-const nav = [
-  { href: "/", key: "nav_home" },
-  { href: "/docencia", key: "nav_teaching" },
-  { href: "/lineas-investigacion", key: "nav_research_lines" },
-  { href: "/publicaciones", key: "nav_pubs" },
-  { href: "/proyectos", key: "nav_projects" },
-  { href: "/tesis", key: "nav_theses" },
-  { href: "/cv", key: "nav_cv" },
-] as const;
-
-const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const isCurrent = (href: string) => currentPath === href;
+const isHome = (Astro.url.pathname.replace(/\/$/, "") || "/") === "/";
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL("/og.jpg", Astro.site).href;
 ---
 <!doctype html>
 <html lang="es" class="lang-es" data-title-es={title} data-title-en={titleEn}>
@@ -33,37 +27,60 @@ const isCurrent = (href: string) => currentPath === href;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} data-desc-es={description} data-desc-en={descriptionEn} />
-    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#f2ebdd" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="canonical" href={canonical} />
     <title>{title}</title>
+    <!-- Link previews (social networks, messaging apps). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={person.name_display} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="/styles/shell.css" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <script src="/scripts/lang.js" is:inline></script>
   </head>
-  <body>
-    <header class="site-header">
-      <p class="brand"><a href="/">Felipe Restrepo Calle</a></p>
-      <div class="header-tools">
-        <nav aria-label={ui.es.nav_aria}>
-          {nav.map((item) => (
-            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
-              <span data-lang="es">{ui.es[item.key]}</span>
-              <span data-lang="en">{ui.en[item.key]}</span>
-            </a>
-          ))}
-        </nav>
+  <body class:list={[isHome ? "is-home" : "is-inner"]}>
+    <a class="skip-link" href="#contenido">
+      <span data-lang="es">Saltar al contenido</span><span data-lang="en">Skip to content</span>
+    </a>
+
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="topbar__brand" href="/">{person.name_display}</a>
+        {!isHome && (
+          <a class="topbar__back" href="/">
+            ← <span data-lang="es">{ui.es.back_home}</span><span data-lang="en">{ui.en.back_home}</span>
+          </a>
+        )}
         <div class="lang-switch" role="group" aria-label={ui.es.lang_switch}>
           <button type="button" data-set-lang="es" aria-pressed="true">ES</button>
           <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
         </div>
       </div>
     </header>
-    <main class="site-main">
+
+    <main id="contenido" class="site-main">
       <slot />
     </main>
+
     <footer class="site-footer">
-      <p>
-        <span data-lang="es">{ui.es.footer}</span>
-        <span data-lang="en">{ui.en.footer}</span>
-      </p>
+      <div class="site-footer__inner">
+        <p class="site-footer__name">{person.name_display}</p>
+        <p>
+          <span data-lang="es">{person.department} · {person.institution}</span>
+          <span data-lang="en">{person.department_en} · {person.institution_en}</span>
+        </p>
+        <p><a href={`mailto:${person.email}`}>{person.email}</a></p>
+      </div>
     </footer>
   </body>
 </html>

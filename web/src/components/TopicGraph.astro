@@ -1,0 +1,113 @@
+---
+/**
+ * Topic graph (adapted from web_plas): area hubs with their topics around them.
+ * Nodes are buttons-like links; home.js turns a click into a filter of the
+ * explorer below. Motion and drag come from scripts/topic-graph-motion.ts.
+ */
+export type GraphNode = {
+  id: string;
+  label: { es: string; en: string };
+  weight: number;
+  x: number;
+  y: number;
+  /** Position on the tall phone canvas (normalized). */
+  mx: number;
+  my: number;
+  hub?: boolean;
+  /** What a click filters by: an area id or a topic id. */
+  filter: { kind: "area" | "topic"; id: string };
+};
+export type GraphEdge = { source: string; target: string; weight: number; cross?: boolean };
+
+interface Props {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+  title: { es: string; en: string };
+  height?: number;
+  mobileHeight?: number;
+}
+
+const { nodes, edges, title, height = 520, mobileHeight = 1150 } = Astro.props;
+
+const vbW = 1100;
+const vbH = height;
+const padX = 72;
+const padY = 48;
+const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+const cx = (n: GraphNode) => padX + n.x * (vbW - padX * 2);
+const cy = (n: GraphNode) => padY + n.y * (vbH - padY * 2);
+const radius = (weight: number) => 12 + Math.min(weight, 5) * 2.6;
+const maxEdge = Math.max(...edges.map((e) => e.weight), 1);
+---
+
+<figure
+  class="topic-graph topic-graph--map"
+  style={`--graph-ratio: ${vbW} / ${vbH}; --graph-ratio-mobile: 420 / ${mobileHeight}`}
+  data-height={height}
+  data-mobile-height={mobileHeight}
+>
+  <div class="topic-graph__frame">
+    <svg class="topic-graph__svg" viewBox={`0 0 ${vbW} ${vbH}`} role="group" aria-label={title.es}>
+      <g class="topic-graph__edges">
+        {edges.map((edge) => {
+          const a = byId[edge.source];
+          const b = byId[edge.target];
+          if (!a || !b) return null;
+          return (
+            <line
+              class:list={[edge.cross && "is-cross"]}
+              data-source={edge.source}
+              data-target={edge.target}
+              x1={cx(a)}
+              y1={cy(a)}
+              x2={cx(b)}
+              y2={cy(b)}
+              stroke-width={1.2 + (edge.weight / maxEdge) * 2.2}
+              stroke-opacity={0.25 + (edge.weight / maxEdge) * 0.45}
+            />
+          );
+        })}
+      </g>
+      <g class="topic-graph__nodes">
+        {nodes.map((node) => {
+          const r = radius(node.weight);
+          return (
+            <g
+              class:list={["topic-graph__node", node.hub && "topic-graph__node--hub"]}
+              data-node-id={node.id}
+              data-nx={node.x}
+              data-ny={node.y}
+              data-mx={node.mx}
+              data-my={node.my}
+              data-weight={node.weight}
+              transform={`translate(${cx(node)} ${cy(node)})`}
+            >
+              <a
+                href="#investigacion"
+                data-graph-filter={node.filter.kind}
+                data-graph-id={node.filter.id}
+                data-label-es={node.label.es}
+                data-label-en={node.label.en}
+                aria-label={node.label.es}
+              >
+                <circle r={r} />
+                <text y={r + 16} text-anchor="middle">
+                  <tspan data-lang="es">{node.label.es}</tspan><tspan data-lang="en">{node.label.en}</tspan>
+                </text>
+              </a>
+            </g>
+          );
+        })}
+      </g>
+    </svg>
+  </div>
+</figure>
+
+<script>
+  import { initTopicGraphMotion } from "../scripts/topic-graph-motion";
+  initTopicGraphMotion();
+  // Labels change width with the language: re-measure when it switches.
+  document.querySelectorAll("[data-set-lang]").forEach((button) =>
+    button.addEventListener("click", () => window.setTimeout(initTopicGraphMotion, 0)),
+  );
+</script>

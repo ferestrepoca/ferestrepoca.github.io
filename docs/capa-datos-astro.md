@@ -17,15 +17,23 @@ Los harvesters leen primero el JSON versionado, fusionan la respuesta remota, va
 
 | Archivo | Contenido | Mantenimiento |
 |---------|-----------|---------------|
-| `person.json` | Perfil, afiliación, aliases e identificadores | Manual |
+| `person.json` | Perfil, bio, rol en el grupo, afiliación, aliases e identificadores | Manual |
 | `publications.json` | Publicaciones y metadatos ORCID/Crossref | Harvester + correcciones manuales |
 | `theses.json` | Tesis dirigidas y metadatos del RI | Harvester |
 | `students.json` | Proyección materializada de las tesis | Regenerado por `harvest:theses` |
 | `courses.json` | Docencia histórica y cursos actuales | Manual |
 | `projects.json` | Proyectos y enlaces bilingües | Manual |
 | `education.json`, `postdocs.json`, `languages.json`, `intellectual_property.json` | CV | Manual |
+| `experience.json` | Trayectoria (institución, cargo, periodo) | Manual |
+| `wip.json` | Estudiantes activos y su trabajo en curso | Manual |
 
 Los años se conservan como texto. Booleanos como `current` y `visible`, contadores y `sort_order` usan tipos JSON nativos. `harvest_sources` y `orcid_put_codes` son arreglos.
+
+## Estudiantes activos y codirección
+
+- `wip.json`: un registro por estudiante que Felipe dirige o codirige hoy. `role` es `director` o `codirector`; `codirectors` lista los nombres de los otros codirectores; `title` puede quedar vacío mientras el trabajo no tenga título. Cuando la cosecha trae la tesis de ese estudiante, se borra su entrada de `wip.json`.
+- `theses.json`: `role: "codirector"` marca una tesis codirigida (sin el campo, es dirección). La cosecha no distingue roles, así que se marca a mano y no la vuelve a tocar.
+- La tesis doctoral de José Miguel Llanos Mosquera (`handle: "10893/36049"`) está en el repositorio de Univalle y se agregó a mano: el harvest solo consulta el repositorio UNAL y nunca la modifica.
 
 ## Garantías
 
@@ -56,6 +64,7 @@ npm run preview
 ## Checklist semestral
 
 1. Actualizar `web/src/data/courses.json`, incluyendo `current`, término y URL.
+1. Revisar `wip.json`: estudiantes nuevos, títulos definidos y quienes ya se graduaron.
 2. Ejecutar ambos harvesters.
 3. Revisar el diff de los JSON.
 4. Ejecutar `npm test && npm run build`.

@@ -1,5 +1,23 @@
 [
   {
+    "id": "tesis:unal/90619",
+    "handle": "unal/90619",
+    "title": "Graph-driven security assurance in web-based software architectures",
+    "year": "2026",
+    "degree": "doctorado",
+    "degree_name_ri": "Doctor en Ingeniería - Sistemas y Computación",
+    "item_url": "https://repositorio.unal.edu.co/handle/unal/90619",
+    "student_id": "estudiante:vergara-vargas-jeisson-andres",
+    "student_name": "Vergara Vargas, Jeisson Andrés",
+    "advisor_ids": [
+      "docente:ferestrepoca"
+    ],
+    "abstract_es": "",
+    "source": "repositorio_unal",
+    "harvested_at": "2026-11-09",
+    "visible": true
+  },
+  {
     "id": "tesis:unal/89978",
     "handle": "unal/89978",
     "title": "Prototipo de asistente virtual como apoyo al proceso de aprendizaje en una asignatura de análisis y visualización de datos utilizando grandes modelos de lenguaje",
@@ -159,6 +177,25 @@
     "abstract_es": "Las iniciativas para mejorar el aprendizaje de los estudiantes han ido en aumento gracias a los avances en las telecomunicaciones y una mayor presencia de equipo de cómputo en los contextos educativos. Entre estas iniciativas se encuentran los laboratorios remotos que permiten la experimentación a distancia. En la misma línea se encuentran los laboratorios híbridos, que pueden agrupar tanto elementos remotos como virtuales o presenciales. El aprendizaje requiere que estas herramientas puedan ser efectivas a un alto nivel. De esta forma, pueden contribuir a motivar a los estudiantes para aprender y generar un flujo positivo en sus calificaciones y recompensas académicas. En electrónica digital, el aprendizaje de los lenguajes de descripción de hardware es de especial interés en el desarrollo de habilidades prácticas en la creación e implementación de circuitos electrónicos digitales. No obstante, se presentan desafíos para los estudiantes, docentes e instituciones. El aprendizaje requiere de estrategias, métodos y herramientas bien pensadas para atender y superar estos desafíos. Por esta razón, las iniciativas de laboratorios para atender a la parte práctica de una asignatura deben ser acompañadas por evidencia empírica para establecer las estrategias y formas de incorporar su funcionalidad en el contexto académico. La revisión de literatura presentó varias iniciativas de laboratorios remotos e híbridos, las cuales han sido generalmente bien recibidas por los estudiantes. En diversos casos, sus percepciones han permitido reconocer los beneficios y bondades que les han generado las nuevas iniciativas para la práctica de laboratorio. A pesar de ello, se encuentran pocos trabajos de validación de estas iniciativas desde el ámbito educativo. En otros casos, los instrumentos utilizados no están estandarizados o simplemente no han sido aplicados. En variables como la motivación por aprender, la evidencia acerca de iniciativas de laboratorios remotos es escasa y aún más para los de tipo híbrido. De esta manera, algunos autores enfatizan la necesidad de realizar más investigación involucrando distintas iniciativas de laboratorios, con el fin de encontrar sus efectos en diversas variables. Con la disponibilidad de mayor evidencia, se podrían tomar mejores decisiones acerca de los componentes de laboratorio práctico para asignaturas relacionadas con electrónica digital que involucren la práctica con un lenguaje de descripción de hardware. A partir de lo expuesto, este trabajo busca aportar evidencia acerca de los efectos en el rendimiento y la motivación en el aprendizaje de un HDL para una asignatura de electrónica digital. Para este propósito, se desplegó un laboratorio híbrido que reúne las modalidades remota y tradicional (Hands-On). El despliegue se realizó bajo una intervención educativa diseñada previamente como un estudio cuasi-experimental. Se trabajó con dos grupos, uno experimental y uno de control. En este proceso, se escogió un laboratorio remoto que, junto a la modalidad tradicional usualmente manejada, se constituyó como un laboratorio híbrido destinado a ser implementado en el grupo experimental. Mientras tanto, el grupo control se mantuvo bajo la modalidad tradicional. Se caracterizó la motivación por aprender gracias a la aplicación de cuestionarios del MSLQ-Colombia, al inicio y al final de la experiencia. Además, se llevó a cabo una encuesta de percepción y se recolectaron las notas de los informes de laboratorio entregados por los estudiantes. Estas acciones de recolección permitieron extraer datos acerca de la motivación y el rendimiento, así como las opiniones y percepciones acerca de la experiencia y las herramientas en detalle. El análisis de la información recolectada se llevó a cabo usando métodos estadísticos para verificar las variaciones en la motivación y el rendimiento. Los datos cuantitativos no arrojaron efectos significativamente positivos en la motivación o el rendimiento. El enfoque cualitativo permitió encontrar hallazgos importantes a partir de la percepción de los estudiantes. Se reportaron beneficios para el trabajo autónomo, buenas expectativas de rendimiento y disminución en niveles de ansiedad gracias a una mejor confianza en la experimentación del laboratorio. Estas son evidencias que pueden ser valoradas de forma positiva para establecer nuevas iniciativas de laboratorios híbridos que apunten al aprendizaje efectivo de lenguajes de descripción de hardware (HDL). (Texto tomado de la fuente).",
     "source": "repositorio_unal",
     "harvested_at": "2026-07-31",
+    "visible": true
+  },
+  {
+    "id": "tesis:10893/36049",
+    "handle": "10893/36049",
+    "title": "Predictive models of academic performance for early intervention in computer programming courses",
+    "year": "2024",
+    "degree": "doctorado",
+    "degree_name_ri": "",
+    "item_url": "https://bibliotecadigital.univalle.edu.co/entities/publication/51973cde-a4cb-4f3c-bd11-464119a43a97",
+    "student_id": "estudiante:llanos-mosquera-jose-miguel",
+    "student_name": "Llanos Mosquera, José Miguel",
+    "advisor_ids": [
+      "docente:ferestrepoca"
+    ],
+    "role": "codirector",
+    "abstract_es": "",
+    "source": "repositorio_univalle",
+    "harvested_at": "",
     "visible": true
   },
   {

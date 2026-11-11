@@ -330,6 +330,28 @@
     ]
   },
   {
+    "id": "estudiante:llanos-mosquera-jose-miguel",
+    "name_display": "Llanos Mosquera, José Miguel",
+    "name_sort": "Llanos Mosquera, José Miguel",
+    "degree_highest": "doctorado",
+    "n_tesis": 1,
+    "role_degree": "doctorado",
+    "thesis": {
+      "id": "tesis:10893/36049",
+      "title": "Predictive models of academic performance for early intervention in computer programming courses",
+      "year": "2024",
+      "degree": "doctorado",
+      "url": "https://bibliotecadigital.univalle.edu.co/entities/publication/51973cde-a4cb-4f3c-bd11-464119a43a97"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://bibliotecadigital.univalle.edu.co/entities/publication/51973cde-a4cb-4f3c-bd11-464119a43a97"
+      }
+    ]
+  },
+  {
     "id": "estudiante:lozano-rojas-hernan-dario",
     "name_display": "Lozano Rojas, Hernan Dario",
     "name_sort": "Lozano Rojas, Hernan Dario",
@@ -568,6 +590,28 @@
         "label": "Tesis",
         "label_en": "Thesis",
         "url": "https://repositorio.unal.edu.co/handle/unal/79877"
+      }
+    ]
+  },
+  {
+    "id": "estudiante:vergara-vargas-jeisson-andres",
+    "name_display": "Vergara Vargas, Jeisson Andrés",
+    "name_sort": "Vergara Vargas, Jeisson Andrés",
+    "degree_highest": "doctorado",
+    "n_tesis": 1,
+    "role_degree": "doctorado",
+    "thesis": {
+      "id": "tesis:unal/90619",
+      "title": "Graph-driven security assurance in web-based software architectures",
+      "year": "2026",
+      "degree": "doctorado",
+      "url": "https://repositorio.unal.edu.co/handle/unal/90619"
+    },
+    "links": [
+      {
+        "label": "Tesis",
+        "label_en": "Thesis",
+        "url": "https://repositorio.unal.edu.co/handle/unal/90619"
       }
     ]
   }

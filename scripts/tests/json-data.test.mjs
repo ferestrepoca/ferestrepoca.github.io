@@ -9,7 +9,7 @@ import { harvestPublications, isProtectedPub, mergeHarvestSources, mergePutCodes
 import { harvestTheses, rebuildStudentsFromTheses } from "../harvest-theses.mjs";
 
 test("the committed JSON dataset is valid", async () => {
-  const names = ["person", "publications", "theses", "students", "courses", "projects", "education", "postdocs", "languages", "intellectual_property"];
+  const names = ["person", "publications", "theses", "students", "courses", "projects", "education", "postdocs", "languages", "intellectual_property", "experience", "wip"];
   const entries = await Promise.all(names.map(async (name) => [name, JSON.parse(await readFile(path.join("web/src/data", `${name}.json`), "utf8"))]));
   assert.doesNotThrow(() => validateDataSet(Object.fromEntries(entries)));
 });
@@ -50,7 +50,7 @@ test("publication harvester writes the canonical JSON directly", async (t) => {
   }];
   await writeJsonBatch([["person.json", person], ["publications.json", baseline]], { dataDir });
 
-  const result = await harvestPublications({
+  const sources = {
     dataDir,
     sleep: async () => {},
     getOrcidWorks: async () => [{ doi: "10.1/test", title: "Remote title", year: "2025", type: "journal-article", putCode: 7 }],
@@ -58,12 +58,17 @@ test("publication harvester writes the canonical JSON directly", async (t) => {
       title: ["Remote title"], type: "journal-article", URL: "https://doi.org/10.1/test",
       published: { "date-parts": [[2025]] }, author: [{ given: "Felipe", family: "Restrepo Calle", ORCID: "https://orcid.org/0000-0003-4226-1324" }],
     }),
-  });
+  };
+  const result = await harvestPublications(sources);
   assert.deepEqual(result.written, ["publications.json"]);
   const saved = JSON.parse(await readFile(path.join(dataDir, "publications.json"), "utf8"));
   assert.equal(saved[0].title, "Manual title");
   assert.deepEqual(saved[0].harvest_sources, ["html", "orcid", "crossref"]);
   assert.deepEqual(saved[0].orcid_put_codes, ["7"]);
+
+  // A second run with no news must not rewrite the file (the weekly workflow would commit noise).
+  const again = await harvestPublications(sources);
+  assert.deepEqual(again.written, []);
 });
 
 test("students are deterministically rebuilt from theses", () => {
